@@ -1,5 +1,6 @@
 package redcoder.chat.client.ui;
 
+import redcoder.chat.client.connection.MessageSender;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
 
@@ -25,6 +26,7 @@ public class MessageInputPanel extends JPanel {
                 if (!text.isEmpty()) {
                     Message message = new Message(user, text);
                     displayPanel.addMessage(message, true);
+                    SwingUtilities.invokeLater(() -> MessageSender.send(message, displayPanel));
                 }
             }
         });

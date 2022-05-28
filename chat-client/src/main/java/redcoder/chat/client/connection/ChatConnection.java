@@ -1,4 +1,4 @@
-package redcoder.chat.common.mock;
+package redcoder.chat.client.connection;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.ChannelFuture;
@@ -12,10 +12,11 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import redcoder.chat.common.handler.ChatMessageDecoder;
 import redcoder.chat.common.handler.ChatMessageEncoder;
+import redcoder.chat.common.model.ChatMessage;
 
-public class ChanelClientMock {
+public class ChatConnection {
 
-    public static void main(String[] args) {
+    public ChatConnection(ChatMessage chatMessage, MessageReceiver messageReceiver){
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
@@ -28,7 +29,7 @@ public class ChanelClientMock {
                             ch.pipeline().addLast(new LengthFieldPrepender(2));
                             ch.pipeline().addLast(new ChatMessageDecoder());
                             ch.pipeline().addLast(new ChatMessageEncoder());
-                            ch.pipeline().addLast(new ChatClientMockHandler());
+                            ch.pipeline().addLast(new ChatHandler(chatMessage, messageReceiver));
                         }
                     })
                     .option(ChannelOption.SO_KEEPALIVE, true);

@@ -15,8 +15,9 @@ public class MessageDisplayPanel extends JScrollPane {
         contentPane = new JPanel();
         contentPane.setLayout(new MigLayout("flowy, fillx"));
 
-        setViewportView(contentPane);
         setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        setViewportView(contentPane);
+        setAutoscrolls(true);
     }
 
     public void addMessage(Message message, boolean isMe) {
@@ -41,6 +42,11 @@ public class MessageDisplayPanel extends JScrollPane {
             contentPane.add(p, "left");
         }
 
-        validate();
+        contentPane.validate();
+
+        SwingUtilities.invokeLater(()->{
+            getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight()));
+            contentPane.validate();
+        });
     }
 }
