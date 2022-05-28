@@ -1,6 +1,7 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.icon.IconResource;
+import redcoder.chat.client.model.headimage.HeadImageIcon;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.utils.RandomUtils;
 
@@ -31,11 +32,11 @@ public class LoginFrame extends JFrame {
         JLabel nicknameLabel = new JLabel("昵称：");
         JTextField nicknameTF = new JTextField(RandomUtils.randomName(), 10);
         JLabel sexLabel = new JLabel("头像：");
-        JButton headImgButton = new JButton(IconResource.getHeadImgIcon("Female.png"));
+        JButton headImgButton = new JButton(HeadImageIconResource.getHeadImage("Female.png"));
         JButton enterBtn = new JButton("进入");
 
         headImgButton.addActionListener(e -> {
-            Icon icon = HeadImgDialog.showDialog(this);
+            Icon icon = AvatarSelectionDialog.showDialog(this);
             if (icon != null) {
                 headImgButton.setIcon(icon);
             }
@@ -44,7 +45,7 @@ public class LoginFrame extends JFrame {
             dispose();
             setVisible(false);
             SwingUtilities.invokeLater(() -> {
-                User user = new User(nicknameTF.getText(), headImgButton.getIcon());
+                User user = new User(nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
                 new ChatFrame(user);
             });
         });

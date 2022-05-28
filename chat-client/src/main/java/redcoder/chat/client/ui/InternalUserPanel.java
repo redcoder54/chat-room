@@ -17,7 +17,7 @@ class InternalUserPanel extends JScrollPane {
     }
 
     void addUser(User user) {
-        JLabel headImage = new JLabel(user.getHeadImage());
+        JLabel headImage = new JLabel(user.getHeadImageIcon());
 
         JLabel nickname = new JLabel(user.getNickname());
         nickname.setFont(new Font(null, Font.PLAIN, 12));

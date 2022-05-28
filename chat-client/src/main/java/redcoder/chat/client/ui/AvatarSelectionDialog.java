@@ -1,16 +1,17 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.icon.IconResource;
+import redcoder.chat.client.model.headimage.HeadImageIcon;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class HeadImgDialog extends JDialog {
+public class AvatarSelectionDialog extends JDialog {
 
-    private Icon selected;
+    private HeadImageIcon selected;
 
-    private HeadImgDialog(JFrame frame) {
+    private AvatarSelectionDialog(JFrame frame) {
         super(frame, "选择头像", true);
         init();
         pack();
@@ -18,12 +19,12 @@ public class HeadImgDialog extends JDialog {
         setVisible(true);
     }
 
-    public static Icon showDialog(JFrame frame) {
-        HeadImgDialog dialog = new HeadImgDialog(frame);
+    public static HeadImageIcon showDialog(JFrame frame) {
+        AvatarSelectionDialog dialog = new AvatarSelectionDialog(frame);
         return dialog.getSelected();
     }
 
-    private Icon getSelected() {
+    private HeadImageIcon getSelected() {
         return selected;
     }
 
@@ -41,7 +42,7 @@ public class HeadImgDialog extends JDialog {
         headImgPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         HeadImgActionListener listener = new HeadImgActionListener();
-        for (ImageIcon imageIcon : IconResource.getHeadImageIcons()) {
+        for (HeadImageIcon imageIcon : HeadImageIconResource.getHeadImageIcons()) {
             JButton button = new JButton(imageIcon);
             button.addActionListener(listener);
             headImgPanel.add(button);
@@ -77,7 +78,7 @@ public class HeadImgDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            selected = button.getIcon();
+            selected = (HeadImageIcon) button.getIcon();
         }
     }
 }

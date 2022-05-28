@@ -1,6 +1,6 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.icon.IconResource;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 import redcoder.chat.client.model.User;
 
 import javax.swing.*;
@@ -13,7 +13,7 @@ public class UserPanelTest {
     private static final Random RANDOM = new Random();
 
     private static UserPanel createUserPanel() {
-        UserPanel userPanel = new UserPanel(new User("Me", IconResource.getHeadImgIcon("Male.png")));
+        UserPanel userPanel = new UserPanel(new User("Me", HeadImageIconResource.getHeadImage("Male.png")));
         for (int i = 0; i < 10; i++) {
             userPanel.addUser(createUser());
         }
@@ -22,7 +22,7 @@ public class UserPanelTest {
 
     private static User createUser() {
         String image = IMAGES[RANDOM.nextInt(2)];
-        return new User("大" + RANDOM.nextInt(100), IconResource.getHeadImgIcon(image));
+        return new User("大" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
     }
 
     public static void main(String[] args) {

@@ -1,4 +1,4 @@
-package redcoder.chat.client.icon;
+package redcoder.chat.client.model.headimage;
 
 import javax.swing.*;
 import java.io.File;
@@ -13,14 +13,14 @@ import java.util.jar.JarFile;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public abstract class IconResource {
+public abstract class HeadImageIconResource {
 
-    private static final Logger LOGGER = Logger.getLogger(IconResource.class.getName());
-    private static final Map<String, ImageIcon> HEAD_IMG_ICONS = new HashMap<>();
+    private static final Logger LOGGER = Logger.getLogger(HeadImageIconResource.class.getName());
+    private static final Map<String, HeadImageIcon> HEAD_IMG_ICONS = new HashMap<>();
 
     static {
         try {
-            loadHeadImgIcon();
+            loadHeadImage();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "IconResource", e);
         }
@@ -29,30 +29,30 @@ public abstract class IconResource {
     /**
      * 获取头像图标
      *
-     * @param iconName 图标名称
+     * @param headImageName 头像名称
      * @return 头像图标
      */
-    public static ImageIcon getHeadImgIcon(String iconName) {
-        ImageIcon imageIcon = HEAD_IMG_ICONS.get(iconName);
+    public static HeadImageIcon getHeadImage(String headImageName) {
+        HeadImageIcon imageIcon = HEAD_IMG_ICONS.get(headImageName);
         if (imageIcon == null) {
-            URL url = IconResource.class.getResource(iconName);
+            URL url = HeadImageIconResource.class.getResource(headImageName);
             if (url == null) {
-                url = IconResource.class.getClassLoader().getResource(iconName);
+                url = HeadImageIconResource.class.getClassLoader().getResource(headImageName);
             }
             if (url != null) {
-                imageIcon = new ImageIcon(url);
-                HEAD_IMG_ICONS.put(iconName, imageIcon);
+                imageIcon = new HeadImageIcon(headImageName, new ImageIcon(url));
+                HEAD_IMG_ICONS.put(headImageName, imageIcon);
             }
         }
         return imageIcon;
     }
 
-    public static Collection<ImageIcon> getHeadImageIcons() {
+    public static Collection<HeadImageIcon> getHeadImageIcons() {
         return HEAD_IMG_ICONS.values();
     }
 
-    private static void loadHeadImgIcon() throws Exception {
-        ClassLoader classLoader = IconResource.class.getClassLoader();
+    private static void loadHeadImage() throws Exception {
+        ClassLoader classLoader = HeadImageIconResource.class.getClassLoader();
         URL url = classLoader.getResource("headimg");
         if (url == null) {
             return;
@@ -73,9 +73,9 @@ public abstract class IconResource {
         if (files != null) {
             for (File f : files) {
                 if (f.isFile()) {
-                    String iconName = f.getName();
+                    String name = f.getName();
                     String path = f.getAbsolutePath();
-                    HEAD_IMG_ICONS.put(iconName, new ImageIcon(path));
+                    HEAD_IMG_ICONS.put(name, new HeadImageIcon(name, new ImageIcon(path)));
                 }
             }
         }
@@ -90,8 +90,8 @@ public abstract class IconResource {
             if (name.endsWith(".gif") || name.endsWith(".png") || name.endsWith(".jpg")) {
                 URL resource = classLoader.getResource(name);
                 if (resource != null) {
-                    String iconName = name.substring(name.lastIndexOf("/") + 1);
-                    HEAD_IMG_ICONS.put(iconName, new ImageIcon(resource));
+                    String headImageName = name.substring(name.lastIndexOf("/") + 1);
+                    HEAD_IMG_ICONS.put(headImageName, new HeadImageIcon(headImageName, new ImageIcon(resource)));
                 }
             }
         }

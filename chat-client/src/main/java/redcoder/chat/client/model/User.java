@@ -1,15 +1,26 @@
 package redcoder.chat.client.model;
 
-import javax.swing.*;
+import redcoder.chat.client.model.headimage.HeadImageIcon;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 public class User {
 
     private String nickname;
-    private Icon headImage;
+    private String headImageName;
+    private HeadImageIcon headImageIcon;
 
-    public User(String nickname, Icon headImage) {
+    public User(String nickname, String headImageName) {
+        this(nickname, headImageName, null);
+    }
+
+    public User(String nickname, HeadImageIcon headImageIcon) {
+        this(nickname, headImageIcon.getHeadImageName(), headImageIcon);
+    }
+
+    public User(String nickname, String headImageName, HeadImageIcon headImageIcon) {
         this.nickname = nickname;
-        this.headImage = headImage;
+        this.headImageName = headImageName;
+        this.headImageIcon = headImageIcon == null ? HeadImageIconResource.getHeadImage(headImageName) : headImageIcon;
     }
 
     public String getNickname() {
@@ -20,11 +31,19 @@ public class User {
         this.nickname = nickname;
     }
 
-    public Icon getHeadImage() {
-        return headImage;
+    public String getHeadImageName() {
+        return headImageName;
     }
 
-    public void setHeadImage(Icon headImage) {
-        this.headImage = headImage;
+    public void setHeadImageName(String headImageName) {
+        this.headImageName = headImageName;
+    }
+
+    public HeadImageIcon getHeadImageIcon() {
+        return headImageIcon;
+    }
+
+    public void setHeadImageIcon(HeadImageIcon headImageIcon) {
+        this.headImageIcon = headImageIcon;
     }
 }

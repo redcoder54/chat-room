@@ -20,7 +20,7 @@ public class MessageDisplayPanel extends JScrollPane {
     }
 
     public void addMessage(Message message, boolean isMe) {
-        JLabel headImage = new JLabel(message.getUser().getHeadImage());
+        JLabel headImage = new JLabel(message.getUser().getHeadImageIcon());
 
         JLabel nickname = new JLabel(message.getUser().getNickname());
         nickname.setFont(new Font(null, Font.PLAIN, 12));
