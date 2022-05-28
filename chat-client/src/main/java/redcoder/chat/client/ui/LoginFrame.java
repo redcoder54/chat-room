@@ -36,7 +36,7 @@ public class LoginFrame extends JFrame {
         JButton enterBtn = new JButton("进入");
 
         headImgButton.addActionListener(e -> {
-            Icon icon = AvatarSelectionDialog.showDialog(this);
+            Icon icon = HeadImageSelectionDialog.showDialog(this);
             if (icon != null) {
                 headImgButton.setIcon(icon);
             }

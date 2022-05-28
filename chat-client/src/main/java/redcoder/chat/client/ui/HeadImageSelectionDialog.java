@@ -7,11 +7,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class AvatarSelectionDialog extends JDialog {
+public class HeadImageSelectionDialog extends JDialog {
 
     private HeadImageIcon selected;
 
-    private AvatarSelectionDialog(JFrame frame) {
+    private HeadImageSelectionDialog(JFrame frame) {
         super(frame, "选择头像", true);
         init();
         pack();
@@ -20,7 +20,7 @@ public class AvatarSelectionDialog extends JDialog {
     }
 
     public static HeadImageIcon showDialog(JFrame frame) {
-        AvatarSelectionDialog dialog = new AvatarSelectionDialog(frame);
+        HeadImageSelectionDialog dialog = new HeadImageSelectionDialog(frame);
         return dialog.getSelected();
     }
 
