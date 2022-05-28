@@ -1,6 +1,8 @@
 package redcoder.chat.common.model;
 
-public class ChatMessage {
+import java.io.Serializable;
+
+public class ChatMessage implements Serializable {
 
     private String nickname;
     private String headImageName;

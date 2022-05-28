@@ -8,8 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.handler.codec.DelimiterBasedFrameDecoder;
-import io.netty.handler.codec.Delimiters;
+import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
+import io.netty.handler.codec.LengthFieldPrepender;
 import redcoder.chat.common.handler.ChatMessageDecoder;
 import redcoder.chat.common.handler.ChatMessageEncoder;
 
@@ -25,9 +25,10 @@ public class ChatServerMock {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new DelimiterBasedFrameDecoder(1024 * 10, Delimiters.nulDelimiter()));
-                            ch.pipeline().addLast(new ChatMessageEncoder());
+                            ch.pipeline().addLast(new LengthFieldBasedFrameDecoder(65535, 0, 2, 0, 2));
+                            ch.pipeline().addLast(new LengthFieldPrepender(2));
                             ch.pipeline().addLast(new ChatMessageDecoder());
+                            ch.pipeline().addLast(new ChatMessageEncoder());
                             ch.pipeline().addLast(new ChatServerMockHandler());
                         }
                     })
