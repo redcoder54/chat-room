@@ -5,9 +5,6 @@ import javax.swing.*;
 public class LoginFrameTest {
 
     public static void main(String[] args) {
-        SwingUtilities.invokeLater(()->{
-            LoginFrame frame = new LoginFrame();
-            frame.createAndShowGUI();
-        });
+        SwingUtilities.invokeLater(Framework::createLoginFrame);
     }
 }

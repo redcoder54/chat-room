@@ -36,7 +36,7 @@ public class ChatServer {
                             ch.pipeline().addLast(new LengthFieldPrepender(2));
                             ch.pipeline().addLast(new ChatMessageDecoder());
                             ch.pipeline().addLast(new ChatMessageEncoder());
-                            ch.pipeline().addLast(new ChatServerHandler(channelGroup));
+                            ch.pipeline().addLast(new ServerHandler(channelGroup));
                         }
                     })
                     .option(ChannelOption.SO_BACKLOG, 128)

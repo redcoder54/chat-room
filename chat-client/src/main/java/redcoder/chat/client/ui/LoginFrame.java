@@ -9,11 +9,10 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.UUID;
 
-public class LoginFrame extends JFrame {
+public class LoginFrame extends RcFrame {
 
     public LoginFrame() {
         super("登录");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(230, 150));
     }
 
@@ -23,7 +22,9 @@ public class LoginFrame extends JFrame {
         setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
+
         init(layout);
+        Framework.addKeyBinding(getRootPane());
 
         pack();
         setLocationRelativeTo(null);
@@ -49,9 +50,7 @@ public class LoginFrame extends JFrame {
             SwingUtilities.invokeLater(() -> {
                 String uid = UUID.randomUUID().toString();
                 User user = new User(uid, nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
-
-                ChatFrame frame = new ChatFrame(user);
-                frame.createAndShowGUI();
+                Framework.createChatFrame(user);
             });
         });
 

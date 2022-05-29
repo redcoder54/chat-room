@@ -1,13 +1,12 @@
 package redcoder.chat.client;
 
-import redcoder.chat.client.ui.LoginFrame;
+import redcoder.chat.client.ui.Framework;
+import redcoder.chat.common.log.LoggingUtils;
 
 public class ChatClient {
 
     public static void main(String[] args) {
-        for (int i = 0; i < 2; i++) {
-            LoginFrame frame = new LoginFrame();
-            frame.createAndShowGUI();
-        }
+        LoggingUtils.resetLogManager();
+        Framework.createLoginFrame();
     }
 }

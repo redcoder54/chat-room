@@ -1,9 +1,10 @@
-package redcoder.chat.client.connection;
+package redcoder.chat.client.message;
 
 import io.netty.channel.ChannelHandlerContext;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
 import redcoder.chat.common.model.RcMessage;
+import redcoder.chat.common.model.RcUser;
 
 public class MessageSender {
 
@@ -23,6 +24,7 @@ public class MessageSender {
 
     private RcMessage convertTo(Message message) {
         User user = message.getUser();
-        return new RcMessage(user.getUid(), user.getNickname(), user.getHeadImageName(), message.getMsg());
+        RcUser rcUser = new RcUser(user.getUid(), user.getNickname(), user.getHeadImageName());
+        return new RcMessage(rcUser, message.getMsg());
     }
 }

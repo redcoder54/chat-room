@@ -9,18 +9,20 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
-import redcoder.chat.client.ui.ChatFrame;
+import redcoder.chat.client.message.MessageReceiver;
+import redcoder.chat.client.message.MessageSender;
+import redcoder.chat.client.model.User;
 import redcoder.chat.common.handler.ChatMessageDecoder;
 import redcoder.chat.common.handler.ChatMessageEncoder;
 
 public class ChatConnection {
 
     private final EventLoopGroup workerGroup;
-    private final ChatHandler chatHandler;
+    private final ClientHandler clientHandler;
 
-    public ChatConnection(MessageSender sender, MessageReceiver receiver, ChatFrame chatFrame) {
+    public ChatConnection(MessageSender sender, MessageReceiver receiver, User loggedUser) {
         this.workerGroup = new NioEventLoopGroup();
-        this.chatHandler = new ChatHandler(sender, receiver, chatFrame);
+        this.clientHandler = new ClientHandler(sender, receiver, loggedUser);
     }
 
     public void open() {
@@ -35,7 +37,7 @@ public class ChatConnection {
                             ch.pipeline().addLast(new LengthFieldPrepender(2));
                             ch.pipeline().addLast(new ChatMessageDecoder());
                             ch.pipeline().addLast(new ChatMessageEncoder());
-                            ch.pipeline().addLast(chatHandler);
+                            ch.pipeline().addLast(clientHandler);
                         }
                     })
                     .option(ChannelOption.SO_KEEPALIVE, true);
@@ -46,7 +48,7 @@ public class ChatConnection {
     }
 
     public void close() {
-        chatHandler.closeChannel();
+        clientHandler.closeChannel();
         workerGroup.shutdownGracefully();
     }
 }

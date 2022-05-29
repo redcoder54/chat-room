@@ -2,28 +2,34 @@ package redcoder.chat.client.connection;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import redcoder.chat.client.message.MessageReceiver;
+import redcoder.chat.client.message.MessageSender;
 import redcoder.chat.client.model.User;
-import redcoder.chat.client.ui.ChatFrame;
 import redcoder.chat.common.model.RcMessage;
+import redcoder.chat.common.model.RcUser;
 
-public class ChatHandler extends ChannelInboundHandlerAdapter {
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+public class ClientHandler extends ChannelInboundHandlerAdapter {
+
+    private static final Logger LOGGER = Logger.getLogger(ClientHandler.class.getName());
     private final MessageSender messageSender;
     private final MessageReceiver messageReceiver;
-    private final ChatFrame chatFrame;
+    private final User loggedUser;
     private ChannelHandlerContext ctx;
 
-    public ChatHandler(MessageSender messageSender, MessageReceiver messageReceiver, ChatFrame chatFrame) {
+    public ClientHandler(MessageSender messageSender, MessageReceiver messageReceiver, User loggedUser) {
         this.messageSender = messageSender;
         this.messageReceiver = messageReceiver;
-        this.chatFrame = chatFrame;
+        this.loggedUser = loggedUser;
     }
 
     public void closeChannel() {
         // 向服务端发送下线通知消息
-        User user = chatFrame.getLoggedUser();
         try {
-            ctx.writeAndFlush(new RcMessage(RcMessage.OFFLINE_MESSAGE, user.getUid(), user.getNickname(), user.getHeadImageName(), "我下线了")).sync();
+            RcUser rcUser = new RcUser(loggedUser.getUid(), loggedUser.getNickname(), loggedUser.getHeadImageName());
+            ctx.writeAndFlush(new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, "我下线了")).sync();
         } catch (InterruptedException e) {
             // ignore
         }
@@ -36,14 +42,14 @@ public class ChatHandler extends ChannelInboundHandlerAdapter {
         messageSender.setCtx(ctx);
 
         // 向服务端发送上线通知消息
-        User user = chatFrame.getLoggedUser();
-        ctx.writeAndFlush(new RcMessage(RcMessage.ONLINE_MESSAGE, user.getUid(), user.getNickname(), user.getHeadImageName(), "我上线了"));
+        RcUser rcUser = new RcUser(loggedUser.getUid(), loggedUser.getNickname(), loggedUser.getHeadImageName());
+        ctx.writeAndFlush(new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, "我上线了"));
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         RcMessage message = (RcMessage) msg;
-        System.out.printf("来自服务端的消息: %s%n", message);
+        LOGGER.log(Level.INFO, "来自服务端的消息: {0}", msg.toString());
         messageReceiver.onReceive(message);
     }
 
