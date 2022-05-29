@@ -3,9 +3,9 @@ package redcoder.chat.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
-import redcoder.chat.common.OnlineUserList;
-import redcoder.chat.common.model.RcMessage;
-import redcoder.chat.common.model.RcUser;
+import redcoder.chat.core.OnlineUserList;
+import redcoder.chat.core.model.RcMessage;
+import redcoder.chat.core.model.RcUser;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;

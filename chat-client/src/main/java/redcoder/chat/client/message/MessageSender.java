@@ -3,8 +3,8 @@ package redcoder.chat.client.message;
 import io.netty.channel.ChannelHandlerContext;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
-import redcoder.chat.common.model.RcMessage;
-import redcoder.chat.common.model.RcUser;
+import redcoder.chat.core.model.RcMessage;
+import redcoder.chat.core.model.RcUser;
 
 public class MessageSender {
 

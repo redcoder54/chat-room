@@ -3,7 +3,7 @@ package redcoder.chat.client.message.handler;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.ui.ChatFrame;
-import redcoder.chat.common.model.RcMessage;
+import redcoder.chat.core.model.RcMessage;
 
 public class ChatMessageHandler extends MessageHandlerSupport implements MessageHandler {
 

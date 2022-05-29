@@ -5,8 +5,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import redcoder.chat.client.message.MessageReceiver;
 import redcoder.chat.client.message.MessageSender;
 import redcoder.chat.client.model.User;
-import redcoder.chat.common.model.RcMessage;
-import redcoder.chat.common.model.RcUser;
+import redcoder.chat.core.model.RcMessage;
+import redcoder.chat.core.model.RcUser;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;

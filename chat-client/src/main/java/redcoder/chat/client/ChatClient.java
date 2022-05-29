@@ -1,7 +1,7 @@
 package redcoder.chat.client;
 
 import redcoder.chat.client.ui.Framework;
-import redcoder.chat.common.log.LoggingUtils;
+import redcoder.chat.core.log.LoggingUtils;
 
 public class ChatClient {
 

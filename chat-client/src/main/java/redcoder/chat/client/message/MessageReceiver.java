@@ -2,7 +2,7 @@ package redcoder.chat.client.message;
 
 import redcoder.chat.client.message.handler.MessageHandlers;
 import redcoder.chat.client.ui.ChatFrame;
-import redcoder.chat.common.model.RcMessage;
+import redcoder.chat.core.model.RcMessage;
 
 public class MessageReceiver {
 

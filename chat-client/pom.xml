@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>redcoder</groupId>
-            <artifactId>chat-common</artifactId>
+            <artifactId>chat-core</artifactId>
             <version>${project.version}</version>
         </dependency>
 

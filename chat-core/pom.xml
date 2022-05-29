@@ -9,10 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>chat-server</artifactId>
+    <artifactId>chat-core</artifactId>
 
-    <name>server</name>
-    <description>在线聊天室-服务端</description>
+    <name>chat-common</name>
     <url>https://github.com/redcoder54</url>
 
     <properties>
@@ -20,13 +19,5 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
-
-    <dependencies>
-        <dependency>
-            <groupId>redcoder</groupId>
-            <artifactId>chat-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-    </dependencies>
 
 </project>

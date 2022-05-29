@@ -1,7 +1,7 @@
 package redcoder.chat.client.message.handler;
 
 import redcoder.chat.client.ui.ChatFrame;
-import redcoder.chat.common.model.RcMessage;
+import redcoder.chat.core.model.RcMessage;
 
 public interface MessageHandler extends Ordered{
 

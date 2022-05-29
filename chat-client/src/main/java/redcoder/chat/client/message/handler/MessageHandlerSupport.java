@@ -1,7 +1,7 @@
 package redcoder.chat.client.message.handler;
 
 import redcoder.chat.client.model.User;
-import redcoder.chat.common.model.RcUser;
+import redcoder.chat.core.model.RcUser;
 
 public class MessageHandlerSupport {
 

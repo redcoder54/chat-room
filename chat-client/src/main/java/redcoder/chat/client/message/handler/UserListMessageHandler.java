@@ -2,8 +2,8 @@ package redcoder.chat.client.message.handler;
 
 import redcoder.chat.client.ui.ChatFrame;
 import redcoder.chat.client.ui.UserPanel;
-import redcoder.chat.common.model.RcMessage;
-import redcoder.chat.common.model.RcUser;
+import redcoder.chat.core.model.RcMessage;
+import redcoder.chat.core.model.RcUser;
 
 public class UserListMessageHandler extends MessageHandlerSupport implements MessageHandler{
 
