@@ -1,4 +1,4 @@
-package redcoder.chat.core;
+package redcoder.chat.server;
 
 import redcoder.chat.core.model.RcUser;
 

@@ -3,7 +3,6 @@ package redcoder.chat.server;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.group.ChannelGroup;
-import redcoder.chat.core.OnlineUserList;
 import redcoder.chat.core.model.RcMessage;
 import redcoder.chat.core.model.RcUser;
 
