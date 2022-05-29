@@ -1,32 +1,84 @@
 package redcoder.chat.client.ui;
 
+import redcoder.chat.client.connection.ChatConnection;
+import redcoder.chat.client.connection.MessageReceiver;
+import redcoder.chat.client.connection.MessageSender;
 import redcoder.chat.client.model.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class ChatFrame extends JFrame {
 
-    public static final int DEFAULT_WIDTH = 900;
-    public static final int DEFAULT_HEIGHT = 600;
-    private final ChatPanel chatPanel;
+    private static final Logger LOGGER = Logger.getLogger(ChatFrame.class.getName());
+    private static final int DEFAULT_WIDTH = 900;
+    private static final int DEFAULT_HEIGHT = 600;
+    private final User user;
+    private final MessageSender sender;
+    private final MessageReceiver receiver;
+    private UserPanel userPanel;
+    private MessageDisplayPanel displayPanel;
+    private ChatConnection connection;
 
     public ChatFrame(User user) {
         super("Rc聊天室");
-        this.chatPanel = new ChatPanel(user);
+        this.user = user;
+        this.sender = new MessageSender();
+        this.receiver = new MessageReceiver(this);
+    }
 
+    public void createAndShowGUI() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                if (connection != null) {
+                    connection.close();
+                }
+            }
+        });
 
+        ChatPanel chatPanel = new ChatPanel(this);
+        userPanel = chatPanel.getUserPanel();
+        displayPanel = chatPanel.getMessagePanel().getDisplayPanel();
         add(chatPanel);
 
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
+
+        // 打开连接
+        SwingUtilities.invokeLater(this::openConnection);
     }
 
-    public ChatPanel getChatPanel() {
-        return chatPanel;
+    private void openConnection() {
+        try {
+            connection = new ChatConnection(sender, receiver);
+            connection.open();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "", e);
+        }
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public MessageSender getSender() {
+        return sender;
+    }
+
+    public UserPanel getUserPanel() {
+        return userPanel;
+    }
+
+    public MessageDisplayPanel getDisplayPanel() {
+        return displayPanel;
     }
 }

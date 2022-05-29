@@ -1,8 +1,8 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 import javax.swing.*;
 import java.util.Random;
@@ -14,7 +14,7 @@ public class ChatPanelTest {
     private static final User me = new User("me", HeadImageIconResource.getHeadImage("Male.png"));
 
     private static ChatPanel createChatPanel() {
-        ChatPanel chatPanel = new ChatPanel(me);
+        ChatPanel chatPanel = new ChatPanel(new ChatFrame(me));
         initUserPanel(chatPanel.getUserPanel());
         initMessagePanel(chatPanel.getMessagePanel().getDisplayPanel());
         return chatPanel;

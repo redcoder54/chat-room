@@ -1,7 +1,5 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.model.User;
-
 import javax.swing.*;
 import java.awt.*;
 
@@ -13,10 +11,10 @@ public class ChatPanel extends JSplitPane {
     private final UserPanel userPanel;
     private final MessagePanel messagePanel;
 
-    public ChatPanel(User user) {
+    public ChatPanel(ChatFrame chatFrame) {
         super(JSplitPane.HORIZONTAL_SPLIT);
-        this.userPanel = new UserPanel(user);
-        this.messagePanel = new MessagePanel(user);
+        this.userPanel = new UserPanel(chatFrame);
+        this.messagePanel = new MessagePanel(chatFrame);
 
         setMinimumSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));

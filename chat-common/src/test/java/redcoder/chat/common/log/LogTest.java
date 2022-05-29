@@ -16,7 +16,12 @@ public class LogTest {
     }
 
     @Test
-    public void info(){
+    public void info() {
         LOGGER.log(Level.INFO, "hello");
+    }
+
+    @Test
+    public void error() {
+        LOGGER.log(Level.SEVERE, "", new RuntimeException("error"));
     }
 }

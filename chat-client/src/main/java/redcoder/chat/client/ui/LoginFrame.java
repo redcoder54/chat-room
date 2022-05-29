@@ -46,7 +46,8 @@ public class LoginFrame extends JFrame {
             setVisible(false);
             SwingUtilities.invokeLater(() -> {
                 User user = new User(nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
-                new ChatFrame(user);
+                ChatFrame frame = new ChatFrame(user);
+                frame.createAndShowGUI();
             });
         });
 

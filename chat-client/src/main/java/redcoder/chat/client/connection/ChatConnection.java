@@ -1,7 +1,6 @@
 package redcoder.chat.client.connection;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
@@ -12,12 +11,18 @@ import io.netty.handler.codec.LengthFieldBasedFrameDecoder;
 import io.netty.handler.codec.LengthFieldPrepender;
 import redcoder.chat.common.handler.ChatMessageDecoder;
 import redcoder.chat.common.handler.ChatMessageEncoder;
-import redcoder.chat.common.model.ChatMessage;
 
 public class ChatConnection {
 
-    public ChatConnection(ChatMessage chatMessage, MessageReceiver messageReceiver){
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
+    private final EventLoopGroup workerGroup;
+    private final ChatHandler chatHandler;
+
+    public ChatConnection(MessageSender sender, MessageReceiver receiver) {
+        this.workerGroup = new NioEventLoopGroup();
+        this.chatHandler = new ChatHandler(sender, receiver);
+    }
+
+    public void open() {
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(workerGroup)
@@ -29,16 +34,18 @@ public class ChatConnection {
                             ch.pipeline().addLast(new LengthFieldPrepender(2));
                             ch.pipeline().addLast(new ChatMessageDecoder());
                             ch.pipeline().addLast(new ChatMessageEncoder());
-                            ch.pipeline().addLast(new ChatHandler(chatMessage, messageReceiver));
+                            ch.pipeline().addLast(chatHandler);
                         }
                     })
                     .option(ChannelOption.SO_KEEPALIVE, true);
-            ChannelFuture future = bootstrap.connect("localhost", 8080).sync();
-            future.channel().closeFuture().sync();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } finally {
-            workerGroup.shutdownGracefully();
+            bootstrap.connect("localhost", 8080).sync();
+        } catch (Exception e) {
+            throw new RuntimeException("无法连接到服务器", e);
         }
+    }
+
+    public void close() {
+        chatHandler.closeChannel();
+        workerGroup.shutdownGracefully();
     }
 }

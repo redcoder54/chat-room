@@ -6,18 +6,24 @@ import redcoder.chat.common.model.ChatMessage;
 
 public class ChatHandler extends ChannelInboundHandlerAdapter {
 
-    private ChatMessage chatMessage;
-    private MessageReceiver messageReceiver;
+    private final MessageSender messageSender;
+    private final MessageReceiver messageReceiver;
+    private ChannelHandlerContext ctx;
 
-    public ChatHandler(ChatMessage chatMessage, MessageReceiver messageReceiver) {
-        this.chatMessage = chatMessage;
+    public ChatHandler(MessageSender messageSender, MessageReceiver messageReceiver) {
+        this.messageSender = messageSender;
         this.messageReceiver = messageReceiver;
+    }
+
+    public void closeChannel() {
+        ctx.close();
     }
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        // ChatMessage message = new ChatMessage("客户端","Client","你好，我是客户端");
-        ctx.writeAndFlush(chatMessage);
+        this.ctx = ctx;
+        messageSender.setCtx(ctx);
+        ctx.writeAndFlush(new ChatMessage("客户端", "Client", "你好，我是客户端"));
     }
 
     @Override
@@ -25,7 +31,6 @@ public class ChatHandler extends ChannelInboundHandlerAdapter {
         ChatMessage message = (ChatMessage) msg;
         System.out.printf("来自服务端的消息: %s%n", message);
         messageReceiver.onReceive(message);
-        ctx.close();
     }
 
     @Override

@@ -43,10 +43,6 @@ public class MessageDisplayPanel extends JScrollPane {
         }
 
         contentPane.validate();
-
-        SwingUtilities.invokeLater(()->{
-            getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight()));
-            contentPane.validate();
-        });
+        SwingUtilities.invokeLater(()-> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
     }
 }
