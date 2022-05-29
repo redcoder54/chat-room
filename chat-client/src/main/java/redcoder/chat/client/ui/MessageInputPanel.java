@@ -1,6 +1,7 @@
 package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.Message;
+import redcoder.chat.client.model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -42,7 +43,8 @@ public class MessageInputPanel extends JPanel implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         String text = msgInputTextArea.getText();
         if (!text.isEmpty()) {
-            Message message = new Message(chatFrame.getUser(), text);
+            User user = chatFrame.getLoggedUser();
+            Message message = new Message(user, text);
             displayPanel.addMessage(message, true);
             SwingUtilities.invokeLater(() -> chatFrame.getSender().send(message));
         }

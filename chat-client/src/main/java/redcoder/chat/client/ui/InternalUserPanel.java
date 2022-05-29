@@ -5,6 +5,7 @@ import redcoder.chat.client.model.User;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 class InternalUserPanel extends JScrollPane {
 
@@ -22,11 +23,35 @@ class InternalUserPanel extends JScrollPane {
         JLabel nickname = new JLabel(user.getNickname());
         nickname.setFont(new Font(null, Font.PLAIN, 12));
 
-        JPanel panel = new JPanel(new MigLayout());
-        panel.add(headImage);
-        panel.add(nickname);
+        contentPane.add(new UidPanel(user.getUid(), headImage, nickname),"growx");
+        contentPane.validate();
+    }
 
-        contentPane.add(panel);
-        contentPane.add(new JSeparator(), "growx");
+    boolean removeUser(User user) {
+        for (Component component : contentPane.getComponents()) {
+            if (component instanceof UidPanel) {
+                UidPanel panel = (UidPanel) component;
+                if (Objects.equals(panel.uid, user.getUid())) {
+                    contentPane.remove(component);
+                    contentPane.validate();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static class UidPanel extends JPanel {
+
+        private final String uid;
+
+        public UidPanel(String uid, JLabel headImage, JLabel nickname) {
+            super(new MigLayout("fillx"));
+            this.uid = uid;
+
+            add(headImage, "split 2");
+            add(nickname, "wrap");
+            add(new JSeparator(), "growx");
+        }
     }
 }

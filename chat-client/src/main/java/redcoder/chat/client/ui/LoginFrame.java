@@ -1,12 +1,13 @@
 package redcoder.chat.client.ui;
 
+import redcoder.chat.client.model.User;
 import redcoder.chat.client.model.headimage.HeadImageIcon;
 import redcoder.chat.client.model.headimage.HeadImageIconResource;
-import redcoder.chat.client.model.User;
 import redcoder.chat.client.utils.RandomUtils;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.UUID;
 
 public class LoginFrame extends JFrame {
 
@@ -14,13 +15,14 @@ public class LoginFrame extends JFrame {
         super("登录");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(230, 150));
+    }
 
+    public void createAndShowGUI() {
         Container contentPane = getContentPane();
         GroupLayout layout = new GroupLayout(contentPane);
         setLayout(layout);
         layout.setAutoCreateGaps(true);
         layout.setAutoCreateContainerGaps(true);
-
         init(layout);
 
         pack();
@@ -45,7 +47,9 @@ public class LoginFrame extends JFrame {
             dispose();
             setVisible(false);
             SwingUtilities.invokeLater(() -> {
-                User user = new User(nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
+                String uid = UUID.randomUUID().toString();
+                User user = new User(uid, nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
+
                 ChatFrame frame = new ChatFrame(user);
                 frame.createAndShowGUI();
             });

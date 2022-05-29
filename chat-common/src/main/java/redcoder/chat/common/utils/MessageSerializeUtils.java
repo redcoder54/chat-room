@@ -1,6 +1,6 @@
 package redcoder.chat.common.utils;
 
-import redcoder.chat.common.model.ChatMessage;
+import redcoder.chat.common.model.RcMessage;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -9,7 +9,7 @@ import java.io.ObjectOutputStream;
 
 public class MessageSerializeUtils {
 
-    public static byte[] serialize(ChatMessage message) {
+    public static byte[] serialize(RcMessage message) {
         try (ByteArrayOutputStream baout = new ByteArrayOutputStream(4096);
              ObjectOutputStream out = new ObjectOutputStream(baout)) {
             out.writeObject(message);
@@ -20,11 +20,11 @@ public class MessageSerializeUtils {
         }
     }
 
-    public static ChatMessage deserialize(byte[] bytes) {
+    public static RcMessage deserialize(byte[] bytes) {
         try (ByteArrayInputStream bain = new ByteArrayInputStream(bytes);
              ObjectInputStream in = new ObjectInputStream(bain)) {
             Object obj = in.readObject();
-            return (ChatMessage) obj;
+            return (RcMessage) obj;
         } catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException("反序列化失败", e);

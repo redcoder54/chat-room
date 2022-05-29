@@ -14,10 +14,10 @@ public class UserPanel extends JPanel {
     private int userNum = 0;
     private final JLabel label;
     private final InternalUserPanel internalUserPanel;
-    private ChatFrame chatFrame;
+    private final ChatFrame frame;
 
-    public UserPanel(ChatFrame chatFrame) {
-        this.chatFrame = chatFrame;
+    public UserPanel(ChatFrame frame) {
+        this.frame = frame;
         label = new JLabel("在线人数：" + userNum);
         internalUserPanel = new InternalUserPanel();
         init();
@@ -29,7 +29,7 @@ public class UserPanel extends JPanel {
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         add(label);
         add(internalUserPanel, "growx");
-        addUser(chatFrame.getUser());
+        addUser(frame.getLoggedUser());
     }
 
 
@@ -37,6 +37,12 @@ public class UserPanel extends JPanel {
         internalUserPanel.addUser(user);
         userNum++;
         label.setText("在线人数：" + userNum);
-        validate();
+    }
+
+    public void removeUser(User user) {
+        if (internalUserPanel.removeUser(user)) {
+            userNum--;
+            label.setText("在线人数：" + userNum);
+        }
     }
 }

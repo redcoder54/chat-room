@@ -15,10 +15,13 @@ import io.netty.handler.codec.LengthFieldPrepender;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import redcoder.chat.common.handler.ChatMessageDecoder;
 import redcoder.chat.common.handler.ChatMessageEncoder;
+import redcoder.chat.common.log.LoggingUtils;
 
 public class ChatServer {
 
     public static void main(String[] args) {
+        LoggingUtils.resetLogManager();
+
         EventLoopGroup bossGroup = new NioEventLoopGroup();
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);

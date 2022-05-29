@@ -17,16 +17,16 @@ public class ChatFrame extends JFrame {
     private static final Logger LOGGER = Logger.getLogger(ChatFrame.class.getName());
     private static final int DEFAULT_WIDTH = 900;
     private static final int DEFAULT_HEIGHT = 600;
-    private final User user;
     private final MessageSender sender;
     private final MessageReceiver receiver;
     private UserPanel userPanel;
     private MessageDisplayPanel displayPanel;
     private ChatConnection connection;
+    private User loggedUser;
 
-    public ChatFrame(User user) {
+    public ChatFrame(User loggedUser) {
         super("Rc聊天室");
-        this.user = user;
+        this.loggedUser = loggedUser;
         this.sender = new MessageSender();
         this.receiver = new MessageReceiver(this);
     }
@@ -59,15 +59,11 @@ public class ChatFrame extends JFrame {
 
     private void openConnection() {
         try {
-            connection = new ChatConnection(sender, receiver);
+            connection = new ChatConnection(sender, receiver, this);
             connection.open();
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "", e);
         }
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public MessageSender getSender() {
@@ -80,5 +76,9 @@ public class ChatFrame extends JFrame {
 
     public MessageDisplayPanel getDisplayPanel() {
         return displayPanel;
+    }
+
+    public User getLoggedUser() {
+        return loggedUser;
     }
 }

@@ -6,12 +6,13 @@ import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 import javax.swing.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class ChatPanelTest {
 
     private static final String[] IMAGES = {"Male.png", "Female.png"};
     private static final Random RANDOM = new Random();
-    private static final User me = new User("me", HeadImageIconResource.getHeadImage("Male.png"));
+    private static final User me = new User("me", "me", "Male.png");
 
     private static ChatPanel createChatPanel() {
         ChatPanel chatPanel = new ChatPanel(new ChatFrame(me));
@@ -44,10 +45,12 @@ public class ChatPanelTest {
 
     private static User createUser() {
         String image = IMAGES[RANDOM.nextInt(2)];
-        return new User("大" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
+        return new User(UUID.randomUUID().toString(), "大" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
     }
 
     public static void main(String[] args) {
+        // Me.setMe(me);
+
         JFrame frame = new JFrame("Chat Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

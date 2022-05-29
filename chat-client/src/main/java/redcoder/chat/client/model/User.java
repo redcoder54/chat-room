@@ -5,22 +5,32 @@ import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 public class User {
 
+    private String uid;
     private String nickname;
     private String headImageName;
     private HeadImageIcon headImageIcon;
 
-    public User(String nickname, String headImageName) {
-        this(nickname, headImageName, null);
+    public User(String uid, String nickname, String headImageName) {
+        this(uid, nickname, headImageName, null);
     }
 
-    public User(String nickname, HeadImageIcon headImageIcon) {
-        this(nickname, headImageIcon.getHeadImageName(), headImageIcon);
+    public User(String uid, String nickname, HeadImageIcon headImageIcon) {
+        this(uid, nickname, headImageIcon.getHeadImageName(), headImageIcon);
     }
 
-    public User(String nickname, String headImageName, HeadImageIcon headImageIcon) {
+    public User(String uid, String nickname, String headImageName, HeadImageIcon headImageIcon) {
+        this.uid = uid;
         this.nickname = nickname;
         this.headImageName = headImageName;
         this.headImageIcon = headImageIcon == null ? HeadImageIconResource.getHeadImage(headImageName) : headImageIcon;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public String getNickname() {

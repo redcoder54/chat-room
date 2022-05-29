@@ -2,19 +2,19 @@ package redcoder.chat.common.mock;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
-import redcoder.chat.common.model.ChatMessage;
+import redcoder.chat.common.model.RcMessage;
 
 public class ChatClientMockHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        ChatMessage message = new ChatMessage("客户端","Client","你好，我是客户端");
+        RcMessage message = new RcMessage("client_mock","客户端","Client","你好，我是客户端");
         ctx.writeAndFlush(message);
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        ChatMessage message = (ChatMessage) msg;
+        RcMessage message = (RcMessage) msg;
         System.out.printf("来自服务端的消息: %s%n", message);
 
         ctx.close();

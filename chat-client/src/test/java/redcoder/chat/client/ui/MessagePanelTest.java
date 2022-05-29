@@ -1,17 +1,19 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
+import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.Random;
+import java.util.UUID;
 
 public class MessagePanelTest {
 
     private static final String[] IMAGES = {"Male.png", "Female.png"};
     private static final Random RANDOM = new Random();
+    private static final User me = new User("me", "me", "Male.png");
 
     private static MessageDisplayPanel createMessagePanel() {
         MessageDisplayPanel messageDisplayPanel = new MessageDisplayPanel();
@@ -38,10 +40,12 @@ public class MessagePanelTest {
 
     private static User createUser() {
         String image = IMAGES[RANDOM.nextInt(2)];
-        return new User("小" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
+        return new User(UUID.randomUUID().toString(), "小" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
     }
 
     public static void main(String[] args) {
+        // Me.setMe(me);
+
         JFrame frame = new JFrame("Message Panel");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setMinimumSize(new Dimension(600, 400));
