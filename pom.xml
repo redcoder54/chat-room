@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>redcoder</groupId>
-    <artifactId>chat-room</artifactId>
+    <artifactId>chatroom</artifactId>
     <packaging>pom</packaging>
     <version>0.0.1-SNAPSHOT</version>
     <modules>
@@ -14,8 +14,8 @@
         <module>chat-core</module>
     </modules>
 
-    <name>chat-room</name>
-    <description>在线聊天室</description>
+    <name>chatroom</name>
+    <description>聊天室</description>
     <url>https://github.com/redcoder54</url>
 
     <properties>

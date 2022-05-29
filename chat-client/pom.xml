@@ -3,7 +3,7 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>chat-room</artifactId>
+        <artifactId>chatroom</artifactId>
         <groupId>redcoder</groupId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
@@ -12,7 +12,7 @@
     <artifactId>chat-clent</artifactId>
 
     <name>client</name>
-    <description>在线聊天室-客户端</description>
+    <description>聊天室-客户端</description>
     <url>https://github.com/redcoder54</url>
 
     <properties>
