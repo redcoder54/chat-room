@@ -14,7 +14,7 @@ public class LogMessageFormatter extends Formatter {
     private final Date dat = new Date();
 
     public LogMessageFormatter() {
-        String value = LogManager.getLogManager().getProperty("redcoder.chat.common.log.LogMessageFormatter.format");
+        String value = LogManager.getLogManager().getProperty("redcoder.chat.core.log.LogMessageFormatter.format");
         if (value != null) {
             format = value;
         }
