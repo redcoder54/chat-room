@@ -13,40 +13,52 @@ public class MessageInputPanel extends JPanel implements ActionListener {
 
     private final ChatFrame chatFrame;
     private final MessageDisplayPanel displayPanel;
-    private final JTextPane msgInputTextPane;
+    private final ScrollableTextInputPane textInputPane;
 
     public MessageInputPanel(ChatFrame chatFrame, MessageDisplayPanel displayPanel) {
         super(new MigLayout("fill, flowy"));
         this.chatFrame = chatFrame;
         this.displayPanel = displayPanel;
-        this.msgInputTextPane = new JTextPane();
+        this.textInputPane = new ScrollableTextInputPane();
         init();
     }
 
     private void init() {
         setBackground(Color.WHITE);
 
-        msgInputTextPane.setMaximumSize(new Dimension(displayPanel.getWidth(), 100));
-        // msgInputTextPane.setContentType("text/html");
-        // msgInputTextPane.setMargin(new Insets(2, 2, 2, 2));
-        JScrollPane msgScrollPane = new JScrollPane(msgInputTextPane);
-        msgScrollPane.setBorder(BorderFactory.createEmptyBorder());
-
         JButton sendButton = new JButton("发送");
         sendButton.addActionListener(this);
 
-        add(msgScrollPane,"grow, center");
-        add(sendButton,"right, south, w 60!, gap 0 20 0 5");
+        add(textInputPane, "grow, center");
+        add(sendButton, "right, south, w 60!, gap 0 20 0 5");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String text = msgInputTextPane.getText();
+        String text = textInputPane.getText();
         if (!text.isEmpty()) {
             User user = chatFrame.getLoggedUser();
             Message message = new Message(user, text.trim());
             displayPanel.addMessage(message, true);
             SwingUtilities.invokeLater(() -> chatFrame.getSender().send(message));
+        }
+    }
+
+    private class ScrollableTextInputPane extends JScrollPane {
+        private final JTextPane textPane;
+
+        public ScrollableTextInputPane() {
+            textPane = new JTextPane();
+            textPane.setMaximumSize(new Dimension(displayPanel.getWidth(), 100));
+            // textPane.setContentType("text/html");
+            // textPane.setMargin(new Insets(2, 2, 2, 2));
+
+            setBorder(BorderFactory.createEmptyBorder());
+            setViewportView(textPane);
+        }
+
+        public String getText() {
+            return textPane.getText();
         }
     }
 }
