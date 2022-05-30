@@ -11,7 +11,7 @@ public class ChatMessageHandler extends MessageHandlerSupport implements Message
     public boolean handle(ChatFrame chatFrame, RcMessage rcMessage) {
         if (rcMessage.getType() == RcMessage.CHAT_MESSAGE) {
             User user = convertTo(rcMessage.getUser());
-            chatFrame.getDisplayPanel().addMessage(new Message(user, rcMessage.getMsg()), false);
+            chatFrame.getMessageDisplayPanel().addMessage(new Message(user, rcMessage.getMsg()), false);
             return false;
         }
         return true;

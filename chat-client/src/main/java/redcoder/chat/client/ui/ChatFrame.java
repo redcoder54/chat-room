@@ -27,7 +27,8 @@ public class ChatFrame extends RcFrame {
     private final MessageSender sender;
     private final MessageReceiver receiver;
     private UserPanel userPanel;
-    private MessageDisplayPanel displayPanel;
+    private MessageDisplayPanel messageDisplayPanel;
+    private MessageInputPanel messageInputPanel;
     private ChatConnection connection;
 
     public ChatFrame(User loggedUser) {
@@ -44,7 +45,8 @@ public class ChatFrame extends RcFrame {
         // 聊天面板
         ChatPanel chatPanel = new ChatPanel(this);
         userPanel = chatPanel.getUserPanel();
-        displayPanel = chatPanel.getMessagePanel().getDisplayPanel();
+        messageDisplayPanel = chatPanel.getMessagePanel().getDisplayPanel();
+        messageInputPanel = chatPanel.getMessagePanel().getInputPanel();
         add(chatPanel);
 
         // 配置菜单
@@ -92,8 +94,12 @@ public class ChatFrame extends RcFrame {
         return userPanel;
     }
 
-    public MessageDisplayPanel getDisplayPanel() {
-        return displayPanel;
+    public MessageDisplayPanel getMessageDisplayPanel() {
+        return messageDisplayPanel;
+    }
+
+    public MessageInputPanel getMessageInputPanel() {
+        return messageInputPanel;
     }
 
     public User getLoggedUser() {

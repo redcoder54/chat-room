@@ -1,9 +1,7 @@
 package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.User;
-import redcoder.chat.client.ui.action.ActionName;
-import redcoder.chat.client.ui.action.CloseSessionAction;
-import redcoder.chat.client.ui.action.NewSessionAction;
+import redcoder.chat.client.ui.action.*;
 
 import javax.swing.*;
 import java.awt.event.InputEvent;
@@ -29,9 +27,13 @@ public class Framework extends WindowAdapter {
     static {
         keyStrokes.put(ActionName.NEW_SESSION, KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_DOWN_MASK));
         keyStrokes.put(ActionName.CLOSE_SESSION, KeyStroke.getKeyStroke(KeyEvent.VK_W, InputEvent.CTRL_DOWN_MASK));
+        keyStrokes.put(ActionName.UNDO, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK));
+        keyStrokes.put(ActionName.REDO, KeyStroke.getKeyStroke(KeyEvent.VK_Z, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
 
         actions.put(ActionName.NEW_SESSION, new NewSessionAction());
         actions.put(ActionName.CLOSE_SESSION, new CloseSessionAction());
+        actions.put(ActionName.UNDO, new UndoAction());
+        actions.put(ActionName.REDO, new RedoAction());
     }
 
     public static Map<ActionName, KeyStroke> getKeyStrokes() {
@@ -74,6 +76,10 @@ public class Framework extends WindowAdapter {
         InputMap inputMap = component.getInputMap(WHEN_IN_FOCUSED_WINDOW);
         inputMap.put(keyStrokes.get(NEW_SESSION), NEW_SESSION);
         inputMap.put(keyStrokes.get(CLOSE_SESSION), CLOSE_SESSION);
+    }
+
+    public static RcFrame getActivatedRcFrame() {
+        return activatedFrame;
     }
 
     @Override
