@@ -63,9 +63,22 @@ public class ChatFrame extends RcFrame {
         SwingUtilities.invokeLater(this::openConnection);
     }
 
+    public void openConnection() {
+        try {
+            connection = new ChatConnection(sender, receiver, loggedUser);
+            connection.open();
+        } catch (Exception e) {
+            LOGGER.log(Level.SEVERE, "Failed to open connection.", e);
+        }
+    }
+
     public void closeConnection() {
         if (connection != null) {
-            connection.close();
+            try {
+                connection.close();
+            } catch (Exception e) {
+                LOGGER.log(Level.SEVERE, "Failed to close connection.", e);
+            }
         }
     }
 
@@ -107,14 +120,5 @@ public class ChatFrame extends RcFrame {
         JMenuItem item = menu.add(action);
         item.setFont(ITEM_FONT);
         item.setAccelerator(keyStroke);
-    }
-
-    private void openConnection() {
-        try {
-            connection = new ChatConnection(sender, receiver, loggedUser);
-            connection.open();
-        } catch (Exception e) {
-            LOGGER.log(Level.SEVERE, "", e);
-        }
     }
 }

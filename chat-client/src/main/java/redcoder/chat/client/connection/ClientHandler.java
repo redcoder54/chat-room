@@ -26,8 +26,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     public void closeChannel() {
-        // 向服务端发送下线通知消息
         try {
+            // 向服务端发送下线通知消息
             RcUser rcUser = new RcUser(loggedUser.getUid(), loggedUser.getNickname(), loggedUser.getHeadImageName());
             ctx.writeAndFlush(new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, "我下线了")).sync();
         } catch (InterruptedException e) {
@@ -55,7 +55,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        cause.printStackTrace();
+        LOGGER.log(Level.SEVERE, "", cause);
         ctx.close();
     }
 }

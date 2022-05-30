@@ -15,17 +15,21 @@ import redcoder.chat.client.model.User;
 import redcoder.chat.core.handler.ChatMessageDecoder;
 import redcoder.chat.core.handler.ChatMessageEncoder;
 
+import java.util.logging.Logger;
+
 public class ChatConnection {
 
-    private final EventLoopGroup workerGroup;
+    private static final Logger LOGGER = Logger.getLogger(ChatConnection.class.getName());
     private final ClientHandler clientHandler;
+    private EventLoopGroup workerGroup;
+    private boolean opened = false;
 
     public ChatConnection(MessageSender sender, MessageReceiver receiver, User loggedUser) {
-        this.workerGroup = new NioEventLoopGroup();
         this.clientHandler = new ClientHandler(sender, receiver, loggedUser);
     }
 
     public void open() {
+        workerGroup = new NioEventLoopGroup();
         try {
             Bootstrap bootstrap = new Bootstrap();
             bootstrap.group(workerGroup)
@@ -40,15 +44,27 @@ public class ChatConnection {
                             ch.pipeline().addLast(clientHandler);
                         }
                     })
+                    .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 10000)
                     .option(ChannelOption.SO_KEEPALIVE, true);
             bootstrap.connect("localhost", 8080).sync();
+            opened = true;
         } catch (Exception e) {
             throw new RuntimeException("无法连接到服务器", e);
+        } finally {
+            if (!opened) {
+                workerGroup.shutdownGracefully();
+            }
         }
     }
 
+    public boolean isOpen() {
+        return opened;
+    }
+
     public void close() {
-        clientHandler.closeChannel();
-        workerGroup.shutdownGracefully();
+        if (opened) {
+            clientHandler.closeChannel();
+            workerGroup.shutdownGracefully();
+        }
     }
 }
