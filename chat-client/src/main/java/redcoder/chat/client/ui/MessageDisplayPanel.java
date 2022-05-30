@@ -27,6 +27,8 @@ public class MessageDisplayPanel extends JScrollPane {
         nickname.setFont(new Font(null, Font.PLAIN, 12));
 
         JTextPane msg = new JTextPane();
+        // msg.setContentType("text/html");
+        msg.setMaximumSize(new Dimension(contentPane.getWidth() - 100, Short.MAX_VALUE));
         msg.setEditable(false);
         msg.setFont(new Font(null, Font.BOLD, 16));
         msg.setText(message.getMsg());
@@ -43,6 +45,6 @@ public class MessageDisplayPanel extends JScrollPane {
         }
 
         contentPane.validate();
-        SwingUtilities.invokeLater(()-> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
+        SwingUtilities.invokeLater(() -> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
     }
 }

@@ -1,5 +1,6 @@
 package redcoder.chat.client.ui;
 
+import net.miginfocom.swing.MigLayout;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.User;
 
@@ -12,39 +13,38 @@ public class MessageInputPanel extends JPanel implements ActionListener {
 
     private final ChatFrame chatFrame;
     private final MessageDisplayPanel displayPanel;
-    private final JTextArea msgInputTextArea;
+    private final JTextPane msgInputTextPane;
 
     public MessageInputPanel(ChatFrame chatFrame, MessageDisplayPanel displayPanel) {
-        super();
+        super(new MigLayout("fill, flowy"));
         this.chatFrame = chatFrame;
         this.displayPanel = displayPanel;
-        this.msgInputTextArea = new JTextArea(3, 30);
+        this.msgInputTextPane = new JTextPane();
         init();
     }
 
     private void init() {
-        msgInputTextArea.setLineWrap(true);
-        msgInputTextArea.setWrapStyleWord(true);
+        setBackground(Color.WHITE);
+
+        msgInputTextPane.setMaximumSize(new Dimension(displayPanel.getWidth(), 100));
+        // msgInputTextPane.setContentType("text/html");
+        // msgInputTextPane.setMargin(new Insets(2, 2, 2, 2));
+        JScrollPane msgScrollPane = new JScrollPane(msgInputTextPane);
+        msgScrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         JButton sendButton = new JButton("发送");
         sendButton.addActionListener(this);
 
-        JPanel btnPanel = new JPanel(new BorderLayout());
-        btnPanel.setBackground(Color.WHITE);
-        btnPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
-        btnPanel.add(sendButton, BorderLayout.LINE_END);
-
-        setLayout(new BorderLayout());
-        add(msgInputTextArea, BorderLayout.CENTER);
-        add(btnPanel, BorderLayout.SOUTH);
+        add(msgScrollPane,"grow, center");
+        add(sendButton,"right, south, w 60!, gap 0 20 0 5");
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        String text = msgInputTextArea.getText();
+        String text = msgInputTextPane.getText();
         if (!text.isEmpty()) {
             User user = chatFrame.getLoggedUser();
-            Message message = new Message(user, text);
+            Message message = new Message(user, text.trim());
             displayPanel.addMessage(message, true);
             SwingUtilities.invokeLater(() -> chatFrame.getSender().send(message));
         }

@@ -9,13 +9,13 @@ import java.awt.*;
 import java.util.Random;
 import java.util.UUID;
 
-public class MessagePanelTest {
+public class MessageDisplayPanelTest {
 
     private static final String[] IMAGES = {"Male.png", "Female.png"};
     private static final Random RANDOM = new Random();
     private static final User me = new User("me", "me", "Male.png");
 
-    private static MessageDisplayPanel createMessagePanel() {
+    private static MessageDisplayPanel createMessageDisplayPanel() {
         MessageDisplayPanel messageDisplayPanel = new MessageDisplayPanel();
         for (int i = 1; i <= 10; i++) {
             messageDisplayPanel.addMessage(createMessage(i), i % 5 == 0);
@@ -51,7 +51,7 @@ public class MessagePanelTest {
         frame.setMinimumSize(new Dimension(600, 400));
         frame.setPreferredSize(new Dimension(900, 600));
 
-        frame.add(createMessagePanel());
+        frame.add(createMessageDisplayPanel());
 
         frame.pack();
         frame.setLocationRelativeTo(null);
