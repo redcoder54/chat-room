@@ -61,6 +61,8 @@ public class ChatFrame extends RcFrame {
 
         // 打开连接
         SwingUtilities.invokeLater(this::openConnection);
+        // 虚拟机关闭时，关闭连接
+        Runtime.getRuntime().addShutdownHook(new Thread(this::closeConnection));
     }
 
     public void openConnection() {
