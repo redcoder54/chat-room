@@ -28,7 +28,7 @@ public class MessageDisplayPanel extends JScrollPane {
 
         setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         setViewportView(contentPane);
-        setAutoscrolls(true);
+        getVerticalScrollBar().setUnitIncrement(10);
     }
 
     public void addMessage(Message message, boolean isMe) {
