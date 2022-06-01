@@ -1,16 +1,12 @@
 package redcoder.chat.client.model;
 
-public class Message {
+public abstract class Message {
 
-    private User user;
-    private String msg;
+    protected User user;
+    protected String msg;
 
-    public Message() {
-    }
-
-    public Message(User user, String msg) {
+    public Message(User user) {
         this.user = user;
-        this.msg = msg;
     }
 
     public User getUser() {

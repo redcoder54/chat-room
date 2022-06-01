@@ -9,7 +9,8 @@ public class ChatClientMockHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        RcMessage message = new RcMessage(new RcUser("client_mock", "客户端", "Client"), "你好，我是客户端");
+        RcMessage message = new RcMessage(RcMessage.TEXT_MESSAGE,
+                new RcUser("client_mock", "客户端", "Client"), "你好，我是客户端");
         ctx.writeAndFlush(message);
     }
 

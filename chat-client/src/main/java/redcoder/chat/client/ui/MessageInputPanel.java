@@ -2,8 +2,10 @@ package redcoder.chat.client.ui;
 
 import net.miginfocom.swing.MigLayout;
 import redcoder.chat.client.model.Message;
+import redcoder.chat.client.model.TextMessage;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.ui.action.ActionName;
+import redcoder.chat.client.ui.dnd.MessageTransferHandler;
 
 import javax.swing.*;
 import javax.swing.text.Document;
@@ -57,7 +59,7 @@ public class MessageInputPanel extends JPanel implements ActionListener {
         String text = textInputPane.getText();
         if (!text.isEmpty()) {
             User user = chatFrame.getLoggedUser();
-            Message message = new Message(user, text.trim());
+            Message message = new TextMessage(user, text.trim());
             displayPanel.addMessage(message, true);
             SwingUtilities.invokeLater(() -> chatFrame.getSender().send(message));
         }
@@ -79,6 +81,9 @@ public class MessageInputPanel extends JPanel implements ActionListener {
             textPane.setMaximumSize(new Dimension(displayPanel.getWidth(), 100));
             // textPane.setContentType("text/html");
             // textPane.setMargin(new Insets(2, 2, 2, 2));
+            textPane.setDragEnabled(true);
+            textPane.setTransferHandler(new MessageTransferHandler());
+
             Document document = textPane.getDocument();
             document.addUndoableEditListener(e -> {
                 undoManager.addEdit(e.getEdit());

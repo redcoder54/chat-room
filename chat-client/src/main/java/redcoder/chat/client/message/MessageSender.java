@@ -1,8 +1,8 @@
 package redcoder.chat.client.message;
 
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import redcoder.chat.client.model.Message;
-import redcoder.chat.client.model.User;
+import redcoder.chat.client.model.*;
 import redcoder.chat.core.model.RcMessage;
 import redcoder.chat.core.model.RcUser;
 
@@ -24,16 +24,43 @@ public class MessageSender {
     }
 
     public void send(Message message) {
+        send(message, false);
+    }
+
+    public void send(Message message, boolean sync) {
         if (ctx == null) {
-            LOGGER.log(Level.SEVERE,"消息发送失败：未设置ChannelHandlerContext，请确认是否已连接到服务器？");
+            LOGGER.log(Level.SEVERE, "消息发送失败：未设置ChannelHandlerContext，请确认是否已连接到服务器？");
             return;
         }
-        ctx.writeAndFlush(convertTo(message));
+        ChannelFuture future = ctx.writeAndFlush(convertTo(message));
+        if (sync) {
+            try {
+                future.sync();
+            } catch (InterruptedException e) {
+                // ignore
+            }
+        }
     }
 
     private RcMessage convertTo(Message message) {
         User user = message.getUser();
         RcUser rcUser = new RcUser(user.getUid(), user.getNickname(), user.getHeadImageName());
-        return new RcMessage(rcUser, message.getMsg());
+        if (message instanceof OnlineMessage) {
+            OnlineMessage onlineMessage = (OnlineMessage) message;
+            return new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, onlineMessage.getMsg());
+        }
+        if (message instanceof OfflineMessage) {
+            OfflineMessage offlineMessage = (OfflineMessage) message;
+            return new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, offlineMessage.getMsg());
+        }
+        if (message instanceof TextMessage) {
+            TextMessage textMessage = (TextMessage) message;
+            return new RcMessage(RcMessage.TEXT_MESSAGE, rcUser, textMessage.getMsg());
+        }
+        if (message instanceof ImageMessage) {
+            ImageMessage imageMessage = (ImageMessage) message;
+            return new RcMessage(RcMessage.IMAGE_MESSAGE, rcUser, imageMessage.getImageData());
+        }
+        throw new IllegalStateException("无法处理的消息: " + message);
     }
 }

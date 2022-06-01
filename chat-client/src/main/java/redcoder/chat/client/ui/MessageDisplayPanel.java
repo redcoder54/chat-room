@@ -1,9 +1,14 @@
 package redcoder.chat.client.ui;
 
 import net.miginfocom.swing.MigLayout;
+import redcoder.chat.client.model.ImageMessage;
 import redcoder.chat.client.model.Message;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 import java.awt.*;
 
 public class MessageDisplayPanel extends JScrollPane {
@@ -32,7 +37,7 @@ public class MessageDisplayPanel extends JScrollPane {
         textPane.setMaximumSize(new Dimension(contentPane.getWidth() - 150, Short.MAX_VALUE));
         textPane.setEditable(false);
         textPane.setFont(FONT);
-        textPane.setText(message.getMsg());
+        setText(message, textPane.getStyledDocument());
 
         JPanel p = new JPanel(new MigLayout());
         p.add(headImage, "span 1 2, top");
@@ -44,10 +49,22 @@ public class MessageDisplayPanel extends JScrollPane {
         } else {
             contentPane.add(p, "left");
         }
-
         contentPane.validate();
         SwingUtilities.invokeLater(() -> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
     }
 
-
+    private void setText(Message message, StyledDocument document) {
+        try {
+            if (message instanceof ImageMessage) {
+                ImageMessage imageMessage = (ImageMessage) message;
+                Style style = document.addStyle("image", null);
+                StyleConstants.setIcon(style, new ImageIcon(imageMessage.getImageData()));
+                document.insertString(0, "1", style);
+            } else {
+                document.insertString(0, message.getMsg(), null);
+            }
+        } catch (BadLocationException e) {
+            // ignore
+        }
+    }
 }

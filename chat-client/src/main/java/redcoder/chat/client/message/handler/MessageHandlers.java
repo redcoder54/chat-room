@@ -17,8 +17,9 @@ public class MessageHandlers {
     static {
         addHandler(new FilterOwnMessageHandler());
         addHandler(new UserOnlineOfflineMessageHandler());
-        addHandler(new ChatMessageHandler());
+        addHandler(new TextMessageHandler());
         addHandler(new UserListMessageHandler());
+        addHandler(new ImageMessageHandler());
         addHandler(new UnknownTypedMessageHandler());
     }
 

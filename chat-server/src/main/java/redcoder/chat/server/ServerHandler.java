@@ -60,7 +60,7 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     private void replyClient() {
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
         RcUser rcUser = new RcUser("chat_server", "服务端", "Male.png");
-        RcMessage rcMessage = new RcMessage(rcUser, "你好，我是服务端. [" + dateTime + "]");
+        RcMessage rcMessage = new RcMessage(RcMessage.TEXT_MESSAGE, rcUser, "你好，我是服务端. [" + dateTime + "]");
         channelGroup.writeAndFlush(rcMessage);
     }
 

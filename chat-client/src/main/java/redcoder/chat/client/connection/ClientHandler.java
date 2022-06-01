@@ -4,9 +4,10 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import redcoder.chat.client.message.MessageReceiver;
 import redcoder.chat.client.message.MessageSender;
+import redcoder.chat.client.model.OfflineMessage;
+import redcoder.chat.client.model.OnlineMessage;
 import redcoder.chat.client.model.User;
 import redcoder.chat.core.model.RcMessage;
-import redcoder.chat.core.model.RcUser;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -26,13 +27,8 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
     }
 
     public void closeChannel() {
-        try {
-            // 向服务端发送下线通知消息
-            RcUser rcUser = new RcUser(loggedUser.getUid(), loggedUser.getNickname(), loggedUser.getHeadImageName());
-            ctx.writeAndFlush(new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, "我下线了")).sync();
-        } catch (InterruptedException e) {
-            // ignore
-        }
+        // 向服务端发送下线通知消息
+        messageSender.send(new OfflineMessage(loggedUser, "我下线了"), true);
         ctx.close();
     }
 
@@ -42,8 +38,7 @@ public class ClientHandler extends ChannelInboundHandlerAdapter {
         messageSender.setCtx(ctx);
 
         // 向服务端发送上线通知消息
-        RcUser rcUser = new RcUser(loggedUser.getUid(), loggedUser.getNickname(), loggedUser.getHeadImageName());
-        ctx.writeAndFlush(new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, "我上线了"));
+        messageSender.send(new OnlineMessage(loggedUser, "我上线了"), false);
     }
 
     @Override

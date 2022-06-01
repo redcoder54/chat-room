@@ -1,6 +1,7 @@
 package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.Message;
+import redcoder.chat.client.model.TextMessage;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.model.headimage.HeadImageIconResource;
 
@@ -26,16 +27,11 @@ public class MessageDisplayPanelTest {
 
     private static Message createMessage(int i) {
         User user = createUser();
-
-        Message message = new Message();
-        message.setUser(user);
         if (i % 2 == 0) {
-            message.setMsg("hellooooooo, i'm " + user.getNickname());
-        }else {
-            message.setMsg("hello, i'm " + user.getNickname());
+            return new TextMessage(user, "hellooooooo, i'm " + user.getNickname());
+        } else {
+            return new TextMessage(user, "hello, i'm " + user.getNickname());
         }
-
-        return message;
     }
 
     private static User createUser() {
