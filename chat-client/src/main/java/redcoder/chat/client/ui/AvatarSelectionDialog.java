@@ -1,17 +1,17 @@
 package redcoder.chat.client.ui;
 
-import redcoder.chat.client.model.headimage.HeadImageIcon;
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
+import redcoder.chat.client.model.AvatarIcon;
+import redcoder.chat.client.resource.IconResource;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 
-public class HeadImageSelectionDialog extends JDialog {
+public class AvatarSelectionDialog extends JDialog {
 
-    private HeadImageIcon selected;
+    private AvatarIcon selected;
 
-    private HeadImageSelectionDialog(JFrame frame) {
+    private AvatarSelectionDialog(JFrame frame) {
         super(frame, "选择头像", true);
         init();
         pack();
@@ -19,35 +19,35 @@ public class HeadImageSelectionDialog extends JDialog {
         setVisible(true);
     }
 
-    public static HeadImageIcon showDialog(JFrame frame) {
-        HeadImageSelectionDialog dialog = new HeadImageSelectionDialog(frame);
+    public static AvatarIcon showDialog(JFrame frame) {
+        AvatarSelectionDialog dialog = new AvatarSelectionDialog(frame);
         return dialog.getSelected();
     }
 
-    private HeadImageIcon getSelected() {
+    private AvatarIcon getSelected() {
         return selected;
     }
 
     private void init() {
-        JPanel headImagePanel = createHeadImagePanel();
+        JPanel avatarPanel = createAvatarPanel();
         JPanel buttonPanel = createButtonPanel();
 
         setLayout(new BorderLayout());
-        add(headImagePanel, BorderLayout.CENTER);
+        add(avatarPanel, BorderLayout.CENTER);
         add(buttonPanel, BorderLayout.SOUTH);
     }
 
-    private JPanel createHeadImagePanel() {
-        JPanel headImgPanel = new JPanel(new GridLayout(4, 5));
-        headImgPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
+    private JPanel createAvatarPanel() {
+        JPanel avatarPanel = new JPanel(new GridLayout(4, 5));
+        avatarPanel.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         HeadImgActionListener listener = new HeadImgActionListener();
-        for (HeadImageIcon imageIcon : HeadImageIconResource.getHeadImageIcons()) {
+        for (AvatarIcon imageIcon : IconResource.getHeadImageIcons()) {
             JButton button = new JButton(imageIcon);
             button.addActionListener(listener);
-            headImgPanel.add(button);
+            avatarPanel.add(button);
         }
-        return headImgPanel;
+        return avatarPanel;
     }
 
     private JPanel createButtonPanel() {
@@ -78,7 +78,7 @@ public class HeadImageSelectionDialog extends JDialog {
         @Override
         public void actionPerformed(ActionEvent e) {
             JButton button = (JButton) e.getSource();
-            selected = (HeadImageIcon) button.getIcon();
+            selected = (AvatarIcon) button.getIcon();
         }
     }
 }

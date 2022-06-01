@@ -6,6 +6,6 @@ import redcoder.chat.core.model.RcUser;
 public class MessageHandlerSupport {
 
     protected User convertTo(RcUser rcUser) {
-        return new User(rcUser.getUid(), rcUser.getNickname(), rcUser.getHeadImageName());
+        return new User(rcUser.getUid(), rcUser.getNickname(), rcUser.getAvatarName());
     }
 }

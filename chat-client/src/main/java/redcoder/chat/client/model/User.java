@@ -1,28 +1,27 @@
 package redcoder.chat.client.model;
 
-import redcoder.chat.client.model.headimage.HeadImageIcon;
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
+import redcoder.chat.client.resource.IconResource;
 
 public class User {
 
     private String uid;
     private String nickname;
-    private String headImageName;
-    private HeadImageIcon headImageIcon;
+    private String avatarName;
+    private AvatarIcon avatarIcon;
 
-    public User(String uid, String nickname, String headImageName) {
-        this(uid, nickname, headImageName, null);
+    public User(String uid, String nickname, String avatarName) {
+        this(uid, nickname, avatarName, null);
     }
 
-    public User(String uid, String nickname, HeadImageIcon headImageIcon) {
-        this(uid, nickname, headImageIcon.getHeadImageName(), headImageIcon);
+    public User(String uid, String nickname, AvatarIcon avatarIcon) {
+        this(uid, nickname, avatarIcon.getAvatarName(), avatarIcon);
     }
 
-    public User(String uid, String nickname, String headImageName, HeadImageIcon headImageIcon) {
+    public User(String uid, String nickname, String avatarName, AvatarIcon avatarIcon) {
         this.uid = uid;
         this.nickname = nickname;
-        this.headImageName = headImageName;
-        this.headImageIcon = headImageIcon == null ? HeadImageIconResource.getHeadImage(headImageName) : headImageIcon;
+        this.avatarName = avatarName;
+        this.avatarIcon = avatarIcon == null ? IconResource.getAvatarIcon(avatarName) : avatarIcon;
     }
 
     public String getUid() {
@@ -41,19 +40,19 @@ public class User {
         this.nickname = nickname;
     }
 
-    public String getHeadImageName() {
-        return headImageName;
+    public String getAvatarName() {
+        return avatarName;
     }
 
-    public void setHeadImageName(String headImageName) {
-        this.headImageName = headImageName;
+    public void setAvatarName(String avatarName) {
+        this.avatarName = avatarName;
     }
 
-    public HeadImageIcon getHeadImageIcon() {
-        return headImageIcon;
+    public AvatarIcon getAvatarIcon() {
+        return avatarIcon;
     }
 
-    public void setHeadImageIcon(HeadImageIcon headImageIcon) {
-        this.headImageIcon = headImageIcon;
+    public void setAvatarIcon(AvatarIcon avatarIcon) {
+        this.avatarIcon = avatarIcon;
     }
 }

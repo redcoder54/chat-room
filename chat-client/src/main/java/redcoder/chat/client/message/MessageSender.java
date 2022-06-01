@@ -44,7 +44,7 @@ public class MessageSender {
 
     private RcMessage convertTo(Message message) {
         User user = message.getUser();
-        RcUser rcUser = new RcUser(user.getUid(), user.getNickname(), user.getHeadImageName());
+        RcUser rcUser = new RcUser(user.getUid(), user.getNickname(), user.getAvatarName());
         if (message instanceof OnlineMessage) {
             OnlineMessage onlineMessage = (OnlineMessage) message;
             return new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, onlineMessage.getMsg());

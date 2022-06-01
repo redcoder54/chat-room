@@ -1,7 +1,7 @@
 package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.User;
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
+import redcoder.chat.client.resource.IconResource;
 
 import javax.swing.*;
 import java.awt.*;
@@ -24,7 +24,7 @@ public class UserPanelTest {
 
     private static User createUser(int i) {
         String image = IMAGES[RANDOM.nextInt(2)];
-        return new User("u" + i, "u" + i, HeadImageIconResource.getHeadImage(image));
+        return new User("u" + i, "u" + i, IconResource.getAvatarIcon(image));
     }
 
     public static void main(String[] args) {

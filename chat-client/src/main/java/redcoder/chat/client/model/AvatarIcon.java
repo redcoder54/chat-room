@@ -1,15 +1,15 @@
-package redcoder.chat.client.model.headimage;
+package redcoder.chat.client.model;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class HeadImageIcon implements Icon {
+public class AvatarIcon implements Icon {
 
-    private final String headImageName;
+    private final String avatarName;
     private final ImageIcon imageIcon;
 
-    public HeadImageIcon(String headImageName, ImageIcon imageIcon) {
-        this.headImageName = headImageName;
+    public AvatarIcon(String avatarName, ImageIcon imageIcon) {
+        this.avatarName = avatarName;
         this.imageIcon = imageIcon;
     }
 
@@ -28,7 +28,7 @@ public class HeadImageIcon implements Icon {
         return imageIcon.getIconHeight();
     }
 
-    public String getHeadImageName() {
-        return headImageName;
+    public String getAvatarName() {
+        return avatarName;
     }
 }

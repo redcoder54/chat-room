@@ -71,12 +71,12 @@ public class UserPanel extends JPanel {
         }
 
         public void addUser(User user) {
-            JLabel headImage = new JLabel(user.getHeadImageIcon());
+            JLabel avatarLabel = new JLabel(user.getAvatarIcon());
 
-            JLabel nickname = new JLabel(user.getNickname());
-            nickname.setFont(new Font(null, Font.PLAIN, 12));
+            JLabel nicknameLabel = new JLabel(user.getNickname());
+            nicknameLabel.setFont(new Font(null, Font.PLAIN, 12));
 
-            contentPane.add(new UidPanel(user.getUid(), headImage, nickname), "growx");
+            contentPane.add(new UidPanel(user.getUid(), avatarLabel, nicknameLabel), "growx");
             contentPane.validate();
         }
 
@@ -99,12 +99,12 @@ public class UserPanel extends JPanel {
 
         private final String uid;
 
-        public UidPanel(String uid, JLabel headImage, JLabel nickname) {
+        public UidPanel(String uid, JLabel avatarLabel, JLabel nicknameLabel) {
             super(new MigLayout("fillx"));
             this.uid = uid;
 
-            add(headImage, "split 2");
-            add(nickname, "wrap");
+            add(avatarLabel, "split 2");
+            add(nicknameLabel, "wrap");
             add(new JSeparator(), "growx");
         }
     }

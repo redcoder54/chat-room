@@ -7,12 +7,12 @@ public class RcUser implements Serializable {
 
     private String uid;
     private String nickname;
-    private String headImageName;
+    private String avatarName;
 
-    public RcUser(String uid, String nickname, String headImageName) {
+    public RcUser(String uid, String nickname, String avatarName) {
         this.uid = uid;
         this.nickname = nickname;
-        this.headImageName = headImageName;
+        this.avatarName = avatarName;
     }
 
     public String getUid() {
@@ -31,12 +31,12 @@ public class RcUser implements Serializable {
         this.nickname = nickname;
     }
 
-    public String getHeadImageName() {
-        return headImageName;
+    public String getAvatarName() {
+        return avatarName;
     }
 
-    public void setHeadImageName(String headImageName) {
-        this.headImageName = headImageName;
+    public void setAvatarName(String avatarName) {
+        this.avatarName = avatarName;
     }
 
     @Override
@@ -58,7 +58,7 @@ public class RcUser implements Serializable {
         return "RcUser{" +
                 "uid='" + uid + '\'' +
                 ", nickname='" + nickname + '\'' +
-                ", headImageName='" + headImageName + '\'' +
+                ", avatarName='" + avatarName + '\'' +
                 '}';
     }
 }

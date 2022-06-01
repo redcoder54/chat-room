@@ -1,8 +1,8 @@
 package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.User;
-import redcoder.chat.client.model.headimage.HeadImageIcon;
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
+import redcoder.chat.client.model.AvatarIcon;
+import redcoder.chat.client.resource.IconResource;
 import redcoder.chat.client.utils.RandomUtils;
 
 import javax.swing.*;
@@ -35,13 +35,13 @@ public class LoginFrame extends RcFrame {
         JLabel nicknameLabel = new JLabel("昵称：");
         JTextField nicknameTF = new JTextField(RandomUtils.randomName(), 10);
         JLabel sexLabel = new JLabel("头像：");
-        JButton headImgButton = new JButton(HeadImageIconResource.getHeadImage("Female.png"));
+        JButton avatarButton = new JButton(IconResource.getAvatarIcon("Female.png"));
         JButton enterBtn = new JButton("进入");
 
-        headImgButton.addActionListener(e -> {
-            Icon icon = HeadImageSelectionDialog.showDialog(this);
+        avatarButton.addActionListener(e -> {
+            Icon icon = AvatarSelectionDialog.showDialog(this);
             if (icon != null) {
-                headImgButton.setIcon(icon);
+                avatarButton.setIcon(icon);
             }
         });
         enterBtn.addActionListener(e -> {
@@ -49,7 +49,7 @@ public class LoginFrame extends RcFrame {
             setVisible(false);
             SwingUtilities.invokeLater(() -> {
                 String uid = UUID.randomUUID().toString();
-                User user = new User(uid, nicknameTF.getText(), (HeadImageIcon) headImgButton.getIcon());
+                User user = new User(uid, nicknameTF.getText(), (AvatarIcon) avatarButton.getIcon());
                 Framework.createChatFrame(user);
             });
         });
@@ -60,7 +60,7 @@ public class LoginFrame extends RcFrame {
                         .addComponent(sexLabel))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(nicknameTF)
-                        .addComponent(headImgButton)
+                        .addComponent(avatarButton)
                         .addGroup(layout.createSequentialGroup()
                                 .addComponent(enterBtn))));
         layout.setVerticalGroup(layout.createSequentialGroup()
@@ -69,7 +69,7 @@ public class LoginFrame extends RcFrame {
                         .addComponent(nicknameTF))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                         .addComponent(sexLabel)
-                        .addComponent(headImgButton))
+                        .addComponent(avatarButton))
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.CENTER)
                         .addComponent(enterBtn)));
 

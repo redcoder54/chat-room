@@ -3,7 +3,7 @@ package redcoder.chat.client.ui;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.TextMessage;
 import redcoder.chat.client.model.User;
-import redcoder.chat.client.model.headimage.HeadImageIconResource;
+import redcoder.chat.client.resource.IconResource;
 
 import javax.swing.*;
 import java.util.Random;
@@ -41,7 +41,7 @@ public class ChatPanelTest {
 
     private static User createUser() {
         String image = IMAGES[RANDOM.nextInt(2)];
-        return new User(UUID.randomUUID().toString(), "大" + RANDOM.nextInt(100), HeadImageIconResource.getHeadImage(image));
+        return new User(UUID.randomUUID().toString(), "大" + RANDOM.nextInt(100), IconResource.getAvatarIcon(image));
     }
 
     public static void main(String[] args) {

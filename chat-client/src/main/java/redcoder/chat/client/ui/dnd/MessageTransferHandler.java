@@ -4,15 +4,17 @@ import redcoder.chat.client.model.ImageMessage;
 import redcoder.chat.client.ui.ChatFrame;
 import redcoder.chat.client.ui.Framework;
 import redcoder.chat.client.ui.RcFrame;
-import redcoder.chat.client.utils.FileUtils;
 import redcoder.chat.client.utils.StringUtils;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.JTextComponent;
+import javax.swing.text.Position;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +28,9 @@ public class MessageTransferHandler extends TransferHandler {
 
     private static final Logger LOGGER = Logger.getLogger(MessageTransferHandler.class.getName());
     private static final String[] options = {"发送", "取消"};
+
+    private Position startPos;
+    private Position endPos;
 
     @Override
     public boolean importData(TransferSupport support) {
@@ -76,10 +81,7 @@ public class MessageTransferHandler extends TransferHandler {
         Image image = (Image) transferable.getTransferData(DataFlavor.imageFlavor);
         if (image instanceof BufferedImage) {
             BufferedImage bufferedImage = (BufferedImage) image;
-            try (ByteArrayOutputStream baos = new ByteArrayOutputStream(1024)) {
-                ImageIO.write(bufferedImage, "png", baos);
-                sendImageMessage(chatFrame, baos.toByteArray());
-            }
+            sendImageMessage(chatFrame, bufferedImage);
         }
         return true;
     }
@@ -103,9 +105,9 @@ public class MessageTransferHandler extends TransferHandler {
                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (state == JOptionPane.YES_OPTION) {
             for (File file : files) {
-                if (ImageIO.read(file) != null) {
-                    byte[] bytes = FileUtils.read(file);
-                    sendImageMessage(chatFrame, bytes);
+                BufferedImage image = ImageIO.read(file);
+                if (image != null) {
+                    sendImageMessage(chatFrame, image);
                 } else {
                     LOGGER.log(Level.WARNING, "Only send image file.");
                 }
@@ -114,7 +116,12 @@ public class MessageTransferHandler extends TransferHandler {
         return true;
     }
 
-    private void sendImageMessage(ChatFrame chatFrame, byte[] bytes) {
+    private void sendImageMessage(ChatFrame chatFrame, BufferedImage bufferedImage) throws Exception {
+        byte[] bytes;
+        try (ByteArrayOutputStream baos = new ByteArrayOutputStream(1024)) {
+            ImageIO.write(bufferedImage, "png", baos);
+            bytes = baos.toByteArray();
+        }
         ImageMessage imageMessage = new ImageMessage(chatFrame.getLoggedUser(), bytes);
         chatFrame.getMessageDisplayPanel().addMessage(imageMessage, true);
         chatFrame.getSender().send(imageMessage);
@@ -129,6 +136,46 @@ public class MessageTransferHandler extends TransferHandler {
 
     @Override
     public int getSourceActions(JComponent c) {
-        return NONE;
+        return ((JTextComponent) c).isEditable() ? COPY_OR_MOVE : COPY;
+    }
+
+    @Override
+    protected Transferable createTransferable(JComponent c) {
+        if (!(c instanceof JTextComponent)) {
+            return null;
+        }
+        JTextComponent textComponent = (JTextComponent) c;
+        int start = textComponent.getSelectionStart();
+        int end = textComponent.getSelectionEnd();
+        if (start == end) {
+            return null;
+        }
+        Document doc = textComponent.getDocument();
+        try {
+            startPos = doc.createPosition(start);
+            endPos = doc.createPosition(end);
+        } catch (BadLocationException e) {
+            LOGGER.log(Level.WARNING, "Can't create position.");
+        }
+        String selectedText = textComponent.getSelectedText();
+        return new StringSelection(selectedText);
+    }
+
+    @Override
+    protected void exportDone(JComponent source, Transferable data, int action) {
+        if (!(source instanceof JTextComponent)) {
+            return;
+        }
+        if (action != MOVE) {
+            return;
+        }
+        if (startPos != null && endPos != null && startPos.getOffset() != endPos.getOffset()) {
+            try {
+                JTextComponent textComponent = (JTextComponent) source;
+                textComponent.getDocument().remove(startPos.getOffset(), endPos.getOffset() - startPos.getOffset());
+            } catch (BadLocationException e) {
+                LOGGER.log(Level.WARNING, "Failed to remove exported content.", e);
+            }
+        }
     }
 }
