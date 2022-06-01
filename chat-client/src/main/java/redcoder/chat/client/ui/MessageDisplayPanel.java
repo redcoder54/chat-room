@@ -37,7 +37,7 @@ public class MessageDisplayPanel extends JScrollPane {
         JLabel nicknameLabel = new JLabel(message.getUser().getNickname());
         nicknameLabel.setFont(new Font(null, Font.PLAIN, 12));
 
-        JComponent msgComp = createMessageComponent(message);
+        JComponent msgComp = createMessageComponent(message, isMe);
 
         JPanel p = new JPanel(new MigLayout());
         p.add(avatarLabel, "span 1 2, top");
@@ -53,7 +53,7 @@ public class MessageDisplayPanel extends JScrollPane {
         SwingUtilities.invokeLater(() -> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
     }
 
-    private JComponent createMessageComponent(Message message) {
+    private JComponent createMessageComponent(Message message, boolean isMe) {
         JTextPane textPane = new JTextPane();
         // textPane.setContentType("text/html");
         textPane.setMaximumSize(new Dimension(contentPane.getWidth() - 150, Short.MAX_VALUE));
@@ -80,7 +80,11 @@ public class MessageDisplayPanel extends JScrollPane {
                     }
                 });
             }
+            textPane.setBackground(contentPane.getBackground());
         } else {
+            if (isMe) {
+                textPane.setBackground(new Color(137, 217, 97));
+            }
             textPane.setText(message.getMsg());
         }
 
