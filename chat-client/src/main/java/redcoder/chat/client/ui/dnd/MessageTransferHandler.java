@@ -103,9 +103,12 @@ public class MessageTransferHandler extends TransferHandler {
                 JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
         if (state == JOptionPane.YES_OPTION) {
             for (File file : files) {
-                // FIXME: 2022/6/1 仅发送图片文件
-                byte[] bytes = FileUtils.read(file);
-                sendImageMessage(chatFrame, bytes);
+                if (ImageIO.read(file) != null) {
+                    byte[] bytes = FileUtils.read(file);
+                    sendImageMessage(chatFrame, bytes);
+                } else {
+                    LOGGER.log(Level.WARNING, "Only send image file.");
+                }
             }
         }
         return true;
