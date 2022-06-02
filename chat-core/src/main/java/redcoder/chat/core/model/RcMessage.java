@@ -16,6 +16,7 @@ public class RcMessage implements Serializable {
      */
     private byte type;
     private RcUser user;
+    private String msgId;
     private String msg;
     private ArrayList<RcUser> onlineUsers;
     private byte[] imageData;
@@ -24,15 +25,17 @@ public class RcMessage implements Serializable {
         this.type = type;
     }
 
-    public RcMessage(byte type, RcUser user, String msg) {
+    public RcMessage(byte type, RcUser user, String msgId, String msg) {
         this.type = type;
         this.user = user;
+        this.msgId = msgId;
         this.msg = msg;
     }
 
-    public RcMessage(byte type, RcUser user, byte[] imageData) {
+    public RcMessage(byte type, RcUser user, String msgId, byte[] imageData) {
         this.type = type;
         this.user = user;
+        this.msgId = msgId;
         this.imageData = imageData;
     }
 
@@ -50,6 +53,14 @@ public class RcMessage implements Serializable {
 
     public void setUser(RcUser user) {
         this.user = user;
+    }
+
+    public String getMsgId() {
+        return msgId;
+    }
+
+    public void setMsgId(String msgId) {
+        this.msgId = msgId;
     }
 
     public String getMsg() {

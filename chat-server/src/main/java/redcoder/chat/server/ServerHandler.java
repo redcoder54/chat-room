@@ -8,6 +8,7 @@ import redcoder.chat.core.model.RcUser;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -60,7 +61,8 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
     private void replyClient() {
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS"));
         RcUser rcUser = new RcUser("chat_server", "服务端", "Male.png");
-        RcMessage rcMessage = new RcMessage(RcMessage.TEXT_MESSAGE, rcUser, "你好，我是服务端. [" + dateTime + "]");
+        RcMessage rcMessage = new RcMessage(RcMessage.TEXT_MESSAGE, rcUser,
+                UUID.randomUUID().toString(), "你好，我是服务端. [" + dateTime + "]");
         channelGroup.writeAndFlush(rcMessage);
     }
 

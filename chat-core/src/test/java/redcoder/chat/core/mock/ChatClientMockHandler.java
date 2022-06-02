@@ -5,12 +5,15 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import redcoder.chat.core.model.RcMessage;
 import redcoder.chat.core.model.RcUser;
 
+import java.util.UUID;
+
 public class ChatClientMockHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         RcMessage message = new RcMessage(RcMessage.TEXT_MESSAGE,
-                new RcUser("client_mock", "客户端", "Client"), "你好，我是客户端");
+                new RcUser("client_mock", "客户端", "Client"),
+                UUID.randomUUID().toString(), "你好，我是客户端");
         ctx.writeAndFlush(message);
     }
 

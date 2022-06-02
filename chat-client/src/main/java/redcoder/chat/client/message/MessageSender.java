@@ -47,19 +47,19 @@ public class MessageSender {
         RcUser rcUser = new RcUser(user.getUid(), user.getNickname(), user.getAvatarName());
         if (message instanceof OnlineMessage) {
             OnlineMessage onlineMessage = (OnlineMessage) message;
-            return new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, onlineMessage.getMsg());
+            return new RcMessage(RcMessage.ONLINE_MESSAGE, rcUser, onlineMessage.getMsgId(), onlineMessage.getMsg());
         }
         if (message instanceof OfflineMessage) {
             OfflineMessage offlineMessage = (OfflineMessage) message;
-            return new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, offlineMessage.getMsg());
+            return new RcMessage(RcMessage.OFFLINE_MESSAGE, rcUser, offlineMessage.getMsgId(), offlineMessage.getMsg());
         }
         if (message instanceof TextMessage) {
             TextMessage textMessage = (TextMessage) message;
-            return new RcMessage(RcMessage.TEXT_MESSAGE, rcUser, textMessage.getMsg());
+            return new RcMessage(RcMessage.TEXT_MESSAGE, rcUser, textMessage.getMsgId(), textMessage.getMsg());
         }
         if (message instanceof ImageMessage) {
             ImageMessage imageMessage = (ImageMessage) message;
-            return new RcMessage(RcMessage.IMAGE_MESSAGE, rcUser, imageMessage.getImageData());
+            return new RcMessage(RcMessage.IMAGE_MESSAGE, rcUser, imageMessage.getMsgId(), imageMessage.getImageData());
         }
         throw new IllegalStateException("无法处理的消息: " + message);
     }

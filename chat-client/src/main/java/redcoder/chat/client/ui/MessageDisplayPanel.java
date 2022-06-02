@@ -32,30 +32,35 @@ public class MessageDisplayPanel extends JScrollPane {
     }
 
     public void addMessage(Message message, boolean isMe) {
-        JLabel avatarLabel = new JLabel(message.getUser().getAvatarIcon());
-
-        JLabel nicknameLabel = new JLabel(message.getUser().getNickname());
-        nicknameLabel.setFont(new Font(null, Font.PLAIN, 12));
-
-        JComponent msgComp = createMessageComponent(message, isMe);
-
-        JPanel p = new JPanel(new MigLayout());
-        p.add(avatarLabel, "span 1 2, top");
-        p.add(nicknameLabel, "span, wrap");
-        p.add(msgComp, "span");
-
+        JPanel msgPanel = createMessagePanel(message, isMe);
         if (isMe) {
-            contentPane.add(p, "right");
+            contentPane.add(msgPanel, "right");
         } else {
-            contentPane.add(p, "left");
+            contentPane.add(msgPanel, "left");
         }
         contentPane.validate();
-        SwingUtilities.invokeLater(() -> getViewport().scrollRectToVisible(new Rectangle(p.getX(), p.getY(), p.getWidth(), p.getHeight())));
+        SwingUtilities.invokeLater(() -> getViewport()
+                .scrollRectToVisible(new Rectangle(msgPanel.getX(), msgPanel.getY(), msgPanel.getWidth(), msgPanel.getHeight())));
     }
 
-    private JComponent createMessageComponent(Message message, boolean isMe) {
+    private JPanel createMessagePanel(Message message, boolean isMe) {
+        JPanel msgPanel = new JPanel(new MigLayout());
+
+        JLabel avatarLabel = new JLabel(message.getUser().getAvatarIcon());
+        JLabel nicknameLabel = new JLabel(message.getUser().getNickname());
+        nicknameLabel.setFont(new Font(null, Font.PLAIN, 12));
+        JComponent msgComp = createMessageComponent(message, isMe, msgPanel);
+
+
+        msgPanel.add(avatarLabel, "span 1 2, top");
+        msgPanel.add(nicknameLabel, "span, wrap");
+        msgPanel.add(msgComp, "span");
+
+        return msgPanel;
+    }
+
+    private JComponent createMessageComponent(Message message, boolean isMe, JPanel msgPanel) {
         JTextPane textPane = new JTextPane();
-        // textPane.setContentType("text/html");
         textPane.setMaximumSize(new Dimension(contentPane.getWidth() - 150, Short.MAX_VALUE));
         textPane.setEditable(false);
         textPane.setFont(FONT);
@@ -70,13 +75,9 @@ public class MessageDisplayPanel extends JScrollPane {
                 textPane.addMouseListener(new MouseAdapter() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        JDialog dialog = new JDialog(Framework.getActivatedRcFrame(), "图片查看", false);
-                        dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
-                        dialog.setLayout(new MigLayout());
-                        dialog.setLocationRelativeTo(null);
-                        dialog.add(new JLabel(new ImageIcon(((ImageMessage) message).getImageData())), "center");
-                        dialog.pack();
-                        dialog.setVisible(true);
+                        if (SwingUtilities.isLeftMouseButton(e)) {
+                            ImageMessageViewDialog.showDialog(imageMessage);
+                        }
                     }
                 });
             }
@@ -87,6 +88,22 @@ public class MessageDisplayPanel extends JScrollPane {
             }
             textPane.setText(message.getMsg());
         }
+
+        // add popup menu
+        JPopupMenu popupMenu = new JPopupMenu();
+        JMenuItem deleteMenuItem = popupMenu.add("删除");
+        deleteMenuItem.addActionListener(e -> {
+            contentPane.remove(msgPanel);
+            contentPane.repaint();
+        });
+        textPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (SwingUtilities.isRightMouseButton(e)) {
+                    popupMenu.show(e.getComponent(), e.getX(), e.getY());
+                }
+            }
+        });
 
         return textPane;
     }
@@ -101,14 +118,13 @@ public class MessageDisplayPanel extends JScrollPane {
             int tThumbHeight = Math.min(100, originHeight);
 
             BufferedImage tThumbImage = new BufferedImage(tThumbWidth, tThumbHeight, BufferedImage.TYPE_INT_RGB);
-            Graphics2D graphics2D = tThumbImage.createGraphics(); // create a graphics object to paint to
+            Graphics2D graphics2D = tThumbImage.createGraphics();
             graphics2D.setBackground(Color.WHITE);
             graphics2D.setPaint(Color.WHITE);
             graphics2D.fillRect(0, 0, tThumbWidth, tThumbHeight);
             graphics2D.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-            graphics2D.drawImage(image, 0, 0, tThumbWidth, tThumbHeight, null); // draw the image scaled
+            graphics2D.drawImage(image, 0, 0, tThumbWidth, tThumbHeight, null);
 
-            // ImageIO.write(tThumbImage, "png", tThumbnailTarget);
             return tThumbImage;
         } catch (Exception e) {
             LOGGER.log(Level.SEVERE, "Failed to thumbnail", e);
