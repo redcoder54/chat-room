@@ -1,7 +1,7 @@
 package redcoder.chat.client.message.handler;
 
 import redcoder.chat.client.ui.ChatFrame;
-import redcoder.chat.client.ui.UserPanel;
+import redcoder.chat.client.ui.user.UserPanel;
 import redcoder.chat.core.model.RcMessage;
 import redcoder.chat.core.model.RcUser;
 

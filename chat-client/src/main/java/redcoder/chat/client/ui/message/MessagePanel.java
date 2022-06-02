@@ -1,4 +1,6 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.message;
+
+import redcoder.chat.client.ui.ChatFrame;
 
 import javax.swing.*;
 import java.awt.*;

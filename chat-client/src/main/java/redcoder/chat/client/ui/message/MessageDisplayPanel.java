@@ -1,4 +1,4 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.message;
 
 import net.miginfocom.swing.MigLayout;
 import redcoder.chat.client.model.ImageMessage;

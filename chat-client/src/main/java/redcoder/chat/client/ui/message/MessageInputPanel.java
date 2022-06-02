@@ -1,11 +1,13 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.message;
 
 import net.miginfocom.swing.MigLayout;
 import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.TextMessage;
 import redcoder.chat.client.model.User;
+import redcoder.chat.client.ui.ChatFrame;
+import redcoder.chat.client.ui.Framework;
 import redcoder.chat.client.ui.action.ActionName;
-import redcoder.chat.client.ui.dnd.MessageTransferHandler;
+import redcoder.chat.client.dnd.MessageTransferHandler;
 
 import javax.swing.*;
 import javax.swing.text.Document;

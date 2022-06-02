@@ -2,6 +2,7 @@ package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.ui.action.*;
+import redcoder.chat.client.ui.login.LoginFrame;
 
 import javax.swing.*;
 import java.awt.event.InputEvent;

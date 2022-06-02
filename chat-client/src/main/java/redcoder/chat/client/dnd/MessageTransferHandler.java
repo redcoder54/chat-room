@@ -1,4 +1,4 @@
-package redcoder.chat.client.ui.dnd;
+package redcoder.chat.client.dnd;
 
 import redcoder.chat.client.model.ImageMessage;
 import redcoder.chat.client.ui.ChatFrame;

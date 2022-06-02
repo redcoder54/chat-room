@@ -1,8 +1,11 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.login;
 
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.model.AvatarIcon;
 import redcoder.chat.client.resource.IconResource;
+import redcoder.chat.client.ui.Framework;
+import redcoder.chat.client.ui.RcFrame;
+import redcoder.chat.client.ui.login.AvatarSelectionDialog;
 import redcoder.chat.client.utils.RandomUtils;
 
 import javax.swing.*;

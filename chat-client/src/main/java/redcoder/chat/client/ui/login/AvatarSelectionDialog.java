@@ -1,4 +1,4 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.login;
 
 import redcoder.chat.client.model.AvatarIcon;
 import redcoder.chat.client.resource.IconResource;

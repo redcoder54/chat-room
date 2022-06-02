@@ -5,6 +5,9 @@ import redcoder.chat.client.message.MessageReceiver;
 import redcoder.chat.client.message.MessageSender;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.ui.action.ActionName;
+import redcoder.chat.client.ui.message.MessageDisplayPanel;
+import redcoder.chat.client.ui.message.MessageInputPanel;
+import redcoder.chat.client.ui.user.UserPanel;
 
 import javax.swing.*;
 import java.awt.*;

@@ -4,6 +4,8 @@ import redcoder.chat.client.model.Message;
 import redcoder.chat.client.model.TextMessage;
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.resource.IconResource;
+import redcoder.chat.client.ui.message.MessageDisplayPanel;
+import redcoder.chat.client.ui.user.UserPanel;
 
 import javax.swing.*;
 import java.util.Random;

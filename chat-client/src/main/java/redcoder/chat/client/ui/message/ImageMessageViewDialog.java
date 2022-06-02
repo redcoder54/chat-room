@@ -1,7 +1,8 @@
-package redcoder.chat.client.ui;
+package redcoder.chat.client.ui.message;
 
 import net.miginfocom.swing.MigLayout;
 import redcoder.chat.client.model.ImageMessage;
+import redcoder.chat.client.ui.Framework;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;

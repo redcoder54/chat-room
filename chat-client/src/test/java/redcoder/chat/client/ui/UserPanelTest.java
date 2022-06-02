@@ -2,6 +2,7 @@ package redcoder.chat.client.ui;
 
 import redcoder.chat.client.model.User;
 import redcoder.chat.client.resource.IconResource;
+import redcoder.chat.client.ui.user.UserPanel;
 
 import javax.swing.*;
 import java.awt.*;
